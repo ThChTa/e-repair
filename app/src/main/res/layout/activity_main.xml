@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/UserOrAdminButton"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        tools:ignore="UselessParent">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:text="@string/button1"
+            android:id="@+id/btn1"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button_for_start_screen"
+            android:layout_marginEnd="16dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:text="@string/button2"
+            android:textAllCaps="false"
+            android:id="@+id/btn2"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_button_for_start_screen"
+            android:layout_marginStart="16dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
