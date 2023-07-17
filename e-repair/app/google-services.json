@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1075308189763",
+    "project_id": "e-repair-348ed",
+    "storage_bucket": "e-repair-348ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075308189763:android:bd764b7f16de4da495dcf6",
+        "android_client_info": {
+          "package_name": "com.example.my2ndapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075308189763-evu5hcqqakhfm3g5vpl3et5h5vlv57k6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my2ndapp",
+            "certificate_hash": "8eba72766709d21c92a8d054d4b8e4aa1a0cc853"
+          }
+        },
+        {
+          "client_id": "1075308189763-4k4jsi8ug0bc8su5n116osje4kabab2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuOMu8uDbaXwE9TyIKVh33iwQo7B4W1SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075308189763-4k4jsi8ug0bc8su5n116osje4kabab2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

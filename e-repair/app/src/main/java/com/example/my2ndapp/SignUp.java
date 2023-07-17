@@ -1,14 +1,110 @@
 package com.example.my2ndapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignUp extends AppCompatActivity {
+
+    private EditText FirstNameGap,LastNameGap,UserNameGap,emailGap,EnterValidPasswordGap;
+    private Button buttonForSignUp;
+    private Spinner spinner;
+
+     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        FirstNameGap = findViewById(R.id.FirstNameGap);
+        LastNameGap = findViewById(R.id.LastNameGap);
+        UserNameGap = findViewById(R.id.UserNameGap);
+        emailGap = findViewById(R.id.emailGap);
+        EnterValidPasswordGap = findViewById(R.id.EnterValidPasswordGap);
+
+        buttonForSignUp = findViewById(R.id.buttonForSignUp);
+
+        buttonForSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                String fname,lname,username,email,password;
+
+                fname = String.valueOf(FirstNameGap.getText());
+                lname = String.valueOf(LastNameGap.getText());
+                username = String.valueOf(UserNameGap.getText());
+                email = String.valueOf(emailGap.getText());
+                password = String.valueOf(EnterValidPasswordGap.getText());
+
+                if(TextUtils.isEmpty(fname)){
+                    Toast.makeText(SignUp.this,"Enter your Firstname", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(lname)){
+                    Toast.makeText(SignUp.this,"Enter your Lastname", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(username)){
+                    Toast.makeText(SignUp.this,"Enter a username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(email)){
+                    Toast.makeText(SignUp.this,"Enter your email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(password)){
+                    Toast.makeText(SignUp.this,"Enter your password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+
+                    Intent intent = new Intent(getApplicationContext(), SignIn.class);
+                    startActivity(intent);
+                    finish();
+
+
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(SignUp.this, "Account created!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(SignUp.this, PAGE1.class);
+                                        startActivity(intent);
+                                        finish();
+
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(SignUp.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }
+
+
+
+
+            }
+        });
     }
 }
