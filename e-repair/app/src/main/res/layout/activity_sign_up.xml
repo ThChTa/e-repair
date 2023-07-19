@@ -10,12 +10,14 @@
 
     <EditText
         android:id="@+id/emailGap"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_input_signup"
+        android:drawableStart="@drawable/baseline_email_24"
         android:ems="10"
-        android:hint="email"
-        android:inputType="text"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.119"
@@ -37,9 +39,11 @@
 
     <EditText
         android:id="@+id/FirstNameGap"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:background="@drawable/custom_input_signup"
+        android:drawableStart="@drawable/baseline_person_24"
         android:ems="10"
         android:hint="FirstName"
         android:inputType="text"
@@ -63,9 +67,11 @@
 
     <EditText
         android:id="@+id/LastNameGap"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/custom_input_signup"
+        android:drawableStart="@drawable/baseline_person_24"
         android:ems="10"
         android:hint="LastName"
         android:inputType="text"
@@ -91,9 +97,10 @@
 
     <Spinner
         android:id="@+id/ProfessionSpinner"
-        android:layout_width="376dp"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
+        android:background="@drawable/custom_input_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.685"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,11 +133,13 @@
 
     <EditText
         android:id="@+id/EnterValidPasswordGap"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:background="@drawable/custom_input_signup"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:ems="10"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"

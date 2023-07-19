@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignIn extends AppCompatActivity {
 
+    private ImageView imageViewSignIn;
     private Button buttonForSignIn,buttonForSignUp;
     private EditText emailGap,passwordGap;
 
@@ -30,6 +32,9 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //back button
+
+        imageViewSignIn = findViewById(R.id.imageView);
+        imageViewSignIn.setBackgroundResource(R.drawable.logo);
 
         emailGap = findViewById(R.id.emailGap);
         passwordGap = findViewById(R.id.enterPasswordGap);
