@@ -9,16 +9,16 @@
 
 
     <TextView
-        android:id="@+id/enterUsername"
+        android:id="@+id/enterEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Enter your Username"
+        android:text="Enter your Email"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/enterUsernameGap"
+        app:layout_constraintBottom_toTopOf="@+id/emailGap"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.037"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -89,12 +89,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/enterUsernameGap"
+        android:id="@+id/emailGap"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"
         android:ems="10"
-        android:hint="username"
+        android:hint="email"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/enterPassword"

@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText FirstNameGap,LastNameGap,UserNameGap,emailGap,EnterValidPasswordGap;
+    private EditText FirstNameGap,LastNameGap,emailGap,EnterValidPasswordGap;
     private Button buttonForSignUp;
     private Spinner spinner;
 
@@ -34,7 +34,6 @@ public class SignUp extends AppCompatActivity {
 
         FirstNameGap = findViewById(R.id.FirstNameGap);
         LastNameGap = findViewById(R.id.LastNameGap);
-        UserNameGap = findViewById(R.id.UserNameGap);
         emailGap = findViewById(R.id.emailGap);
         EnterValidPasswordGap = findViewById(R.id.EnterValidPasswordGap);
 
@@ -50,7 +49,6 @@ public class SignUp extends AppCompatActivity {
 
                 fname = String.valueOf(FirstNameGap.getText());
                 lname = String.valueOf(LastNameGap.getText());
-                username = String.valueOf(UserNameGap.getText());
                 email = String.valueOf(emailGap.getText());
                 password = String.valueOf(EnterValidPasswordGap.getText());
 
@@ -60,10 +58,6 @@ public class SignUp extends AppCompatActivity {
                 }
                 else if(TextUtils.isEmpty(lname)){
                     Toast.makeText(SignUp.this,"Enter your Lastname", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                else if(TextUtils.isEmpty(username)){
-                    Toast.makeText(SignUp.this,"Enter a username", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(TextUtils.isEmpty(email)){
@@ -76,20 +70,19 @@ public class SignUp extends AppCompatActivity {
                 }
                 else {
 
-                    Intent intent = new Intent(getApplicationContext(), SignIn.class);
-                    startActivity(intent);
-                    finish();
-
-
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(SignUp.this, "Account created!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(SignUp.this, PAGE1.class);
+
+                                        Intent intent = new Intent(getApplicationContext(), SignIn.class);
                                         startActivity(intent);
                                         finish();
+
+                                        Toast.makeText(SignUp.this, "Now, sign in with your credentials", Toast.LENGTH_SHORT).show();
+
 
                                     } else {
                                         // If sign in fails, display a message to the user.

@@ -65,53 +65,29 @@
         android:id="@+id/LastNameGap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="LastName"
         android:inputType="text"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/PickProfession"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.119"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EnterLastName" />
-
-    <TextView
-        android:id="@+id/EnterUsernameToSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Enter a non existed Username"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LastNameGap" />
-
-    <EditText
-        android:id="@+id/UserNameGap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:hint="username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EnterUsernameToSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/EnterLastName"
+        app:layout_constraintVertical_bias="0.067" />
 
     <TextView
         android:id="@+id/PickProfession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="92dp"
         android:text="Pick your Profession"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserNameGap" />
+        app:layout_constraintTop_toBottomOf="@+id/EnterLastName" />
 
     <Spinner
         android:id="@+id/ProfessionSpinner"
@@ -166,7 +142,7 @@
         android:id="@+id/buttonForSignUp"
         android:layout_width="354dp"
         android:layout_height="48dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/custom_button_for_start_screen"
         android:text="Create Account"
         android:textAllCaps="false"
