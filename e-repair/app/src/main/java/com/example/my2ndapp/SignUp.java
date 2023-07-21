@@ -8,20 +8,30 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
@@ -32,6 +42,14 @@ public class SignUp extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
+
+    FirebaseDatabase database;
+    DatabaseReference reference;
+
+    Member member;
+    int maxId = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +62,41 @@ public class SignUp extends AppCompatActivity {
 
         FirstNameGap = findViewById(R.id.FirstNameGap);
         LastNameGap = findViewById(R.id.LastNameGap);
+        spinner = findViewById(R.id.ProfessionSpinner);
         emailGap = findViewById(R.id.emailGap);
         EnterValidPasswordGap = findViewById(R.id.EnterValidPasswordGap);
 
         buttonForSignUp = findViewById(R.id.buttonForSignUp);
+
+        member = new Member();
+        reference = database.getInstance().getReference().child("Users");
+
+        List<String> Categories = new ArrayList<>();
+        Categories.add(0,"Choose Category");
+        Categories.add("aaa");
+        Categories.add("bbb");
+
+        ArrayAdapter<String> dataAdapter;
+        dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,Categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            //    if(parent.getItemAtPosition(position).equals("Choose Category")){
+
+              //  }else{
+                   // selected.setText(parent.getSelectedItem().toString());
+               // }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         buttonForSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,12 +104,15 @@ public class SignUp extends AppCompatActivity {
 
 
 
-                String fname,lname,username,email,password;
+                String fname,lname,category,email,password;
 
                 fname = String.valueOf(FirstNameGap.getText());
                 lname = String.valueOf(LastNameGap.getText());
+
                 email = String.valueOf(emailGap.getText());
                 password = String.valueOf(EnterValidPasswordGap.getText());
+
+                String text = spinner.getSelectedItem().toString();
 
                 if(TextUtils.isEmpty(fname)){
                     Toast.makeText(SignUp.this,"Enter your Firstname", Toast.LENGTH_SHORT).show();
@@ -96,6 +148,7 @@ public class SignUp extends AppCompatActivity {
                                         userInfo.put("LastName", lname);
                                         userInfo.put("UserEmail", email);
                                         userInfo.put("IsAdmin", "1");
+                                        userInfo.put("Category", text);
 
                                         df.set(userInfo);
                                         Intent intent = new Intent(getApplicationContext(), SignIn.class);
@@ -115,10 +168,27 @@ public class SignUp extends AppCompatActivity {
 
                 }
 
+                member.setSpinner(spinner.getSelectedItem().toString());
+                Toast.makeText(SignUp.this, "Spinner Successfully", Toast.LENGTH_SHORT).show();
 
+                reference.child(String.valueOf(maxId+1)).setValue(member);
+            }
+        });
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                    maxId = (int)snapshot.getChildrenCount();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
     }
 }
