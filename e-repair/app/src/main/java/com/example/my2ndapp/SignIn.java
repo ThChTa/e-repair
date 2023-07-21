@@ -1,5 +1,7 @@
 package com.example.my2ndapp;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,9 +17,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignIn extends AppCompatActivity {
 
@@ -24,7 +31,11 @@ public class SignIn extends AppCompatActivity {
     private Button buttonForSignIn,buttonForSignUp;
     private EditText emailGap,passwordGap;
 
-    FirebaseAuth firebaseAuthSignIn = FirebaseAuth.getInstance();
+    int k =1;
+    FirebaseAuth firebaseAuthSignIn;
+    FirebaseFirestore firebaseFirestore;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,9 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //back button
+
+        firebaseAuthSignIn = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         imageViewSignIn = findViewById(R.id.imageView);
         imageViewSignIn.setBackgroundResource(R.drawable.logo);
@@ -45,6 +59,9 @@ public class SignIn extends AppCompatActivity {
         buttonForSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.d("TAG","onClick: " + emailGap.getText().toString());
+
                 String email, password;
                 email = String.valueOf(emailGap.getText());
                 password = String.valueOf(passwordGap.getText());
@@ -65,9 +82,8 @@ public class SignIn extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SignIn.this, "Login Successful!", Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(getApplicationContext(), PAGE1.class);
-                                    startActivity(intent);
-                                    finish();
+                                    checkUserAccessLevel(firebaseAuthSignIn.getCurrentUser().getUid());
+
 
 
                                 } else {
@@ -77,10 +93,6 @@ public class SignIn extends AppCompatActivity {
                                 }
                             }
                         });
-
-
-
-
             }
         });
 
@@ -91,6 +103,35 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkUserAccessLevel(String uid){
+        DocumentReference df = firebaseFirestore.collection("Users").document(uid);
+        //extract data
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("TAG", "onSuccess " + documentSnapshot.getData());
+                //identify user
+                String isAdmin = documentSnapshot.getString("IsAdmin");
+
+                if ( isAdmin!=null && isAdmin.compareTo("1")==0) {
+
+                    //user is admin
+                    startActivity(new Intent(getApplicationContext(), Admin.class));
+                    finish();
+                }
+                else if (isAdmin!=null && isAdmin.compareTo("0")==0) {
+                    startActivity(new Intent(getApplicationContext(), User.class));
+                    finish();
+                }
+                else{
+                    Toast.makeText(SignIn.this, "ERROR", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 
 

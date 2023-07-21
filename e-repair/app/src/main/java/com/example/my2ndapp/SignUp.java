@@ -18,6 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
@@ -25,12 +30,17 @@ public class SignUp extends AppCompatActivity {
     private Button buttonForSignUp;
     private Spinner spinner;
 
-     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         FirstNameGap = findViewById(R.id.FirstNameGap);
         LastNameGap = findViewById(R.id.LastNameGap);
@@ -75,8 +85,19 @@ public class SignUp extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+
+                                        FirebaseUser user =  firebaseAuth.getCurrentUser();
+
                                         Toast.makeText(SignUp.this, "Account created!", Toast.LENGTH_SHORT).show();
 
+                                        DocumentReference df = firebaseFirestore.collection("Users").document(user.getUid());
+                                        Map<String,Object> userInfo = new HashMap<>();
+                                        userInfo.put("FirstName", fname);
+                                        userInfo.put("LastName", lname);
+                                        userInfo.put("UserEmail", email);
+                                        userInfo.put("IsAdmin", "1");
+
+                                        df.set(userInfo);
                                         Intent intent = new Intent(getApplicationContext(), SignIn.class);
                                         startActivity(intent);
                                         finish();
