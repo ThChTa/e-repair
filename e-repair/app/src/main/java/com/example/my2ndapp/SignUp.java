@@ -102,17 +102,23 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String fname,lname,categ,email,password,isAdmin;
 
 
-                String fname,lname,category,email,password;
 
                 fname = String.valueOf(FirstNameGap.getText());
                 lname = String.valueOf(LastNameGap.getText());
-
+                categ = spinner.getSelectedItem().toString();
                 email = String.valueOf(emailGap.getText());
                 password = String.valueOf(EnterValidPasswordGap.getText());
 
-                String text = spinner.getSelectedItem().toString();
+
+               if(spinner.getSelectedItemPosition()==0) {
+                   isAdmin = "0";
+               }
+               else{
+                   isAdmin = "1";
+                }
 
                 if(TextUtils.isEmpty(fname)){
                     Toast.makeText(SignUp.this,"Enter your Firstname", Toast.LENGTH_SHORT).show();
@@ -146,9 +152,10 @@ public class SignUp extends AppCompatActivity {
                                         Map<String,Object> userInfo = new HashMap<>();
                                         userInfo.put("FirstName", fname);
                                         userInfo.put("LastName", lname);
+                                        userInfo.put("Category", categ);
                                         userInfo.put("UserEmail", email);
-                                        userInfo.put("IsAdmin", "1");
-                                        userInfo.put("Category", text);
+                                        userInfo.put("IsAdmin", isAdmin);
+
 
                                         df.set(userInfo);
                                         Intent intent = new Intent(getApplicationContext(), SignIn.class);
