@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,7 +45,7 @@ public class SignUp extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference reference;
 
-    Member member;
+    //Member member;
     int maxId = 0;
 
 
@@ -68,11 +67,11 @@ public class SignUp extends AppCompatActivity {
 
         buttonForSignUp = findViewById(R.id.buttonForSignUp);
 
-        member = new Member();
+        //member = new Member();
         reference = database.getInstance().getReference().child("Users");
 
         List<String> Categories = new ArrayList<>();
-        Categories.add(0,"Choose Category");
+        Categories.add(0,"user");
         Categories.add("aaa");
         Categories.add("bbb");
 
@@ -103,8 +102,6 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
 
                 String fname,lname,categ,email,password,isAdmin;
-
-
 
                 fname = String.valueOf(FirstNameGap.getText());
                 lname = String.valueOf(LastNameGap.getText());
@@ -175,11 +172,16 @@ public class SignUp extends AppCompatActivity {
 
                 }
 
-                member.setSpinner(spinner.getSelectedItem().toString());
+               // member.setSpinner(spinner.getSelectedItem().toString());
                 Toast.makeText(SignUp.this, "Spinner Successfully", Toast.LENGTH_SHORT).show();
+                insertUserAdminData();
 
-                reference.child(String.valueOf(maxId+1)).setValue(member);
+
+
+
             }
+
+
         });
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -196,6 +198,34 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void insertUserAdminData(){
+
+        String fname,lname,categ,email,isAdmin;
+
+        fname = String.valueOf(FirstNameGap.getText());
+        lname = String.valueOf(LastNameGap.getText());
+        categ = spinner.getSelectedItem().toString();
+        email = String.valueOf(emailGap.getText());
+
+        if(categ.equals("user")){
+            isAdmin="0";
+        }
+        else{
+            isAdmin="1";
+        }
+
+
+        UserAdminData userAdminData = new UserAdminData(fname,lname,email,categ,isAdmin);
+
+        //reference.push().setValue(userAdminData);  ITAN PALIA GIA NA VGAZEI RANDOM TIMES
+        reference.child(String.valueOf(maxId+1)).setValue(userAdminData); //gia auto increment
+        Toast.makeText(SignUp.this, "Data Inserted  .",Toast.LENGTH_SHORT).show();
+
+
+
 
     }
 }
