@@ -155,7 +155,7 @@ public class SignUp extends AppCompatActivity {
 
 
                                         df.set(userInfo);
-                                        Intent intent = new Intent(getApplicationContext(), SignIn.class);
+                                        Intent intent = new Intent(getApplicationContext(), User.class);
                                         startActivity(intent);
                                         finish();
 

@@ -4,6 +4,8 @@ package com.example.my2ndapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ public class MyPublications extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     DataAdapter dataAdapter;
+    String sendToDataAdapter; //pass data from this class to DataAdapter.class
 
 
     @Override
@@ -30,12 +33,15 @@ public class MyPublications extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //set the layout of the contents, i.e. list of repeating views in the recycler view
 
         FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs"), RecyclerViewData.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("type"), RecyclerViewData.class)
                 .build();
 
-        dataAdapter = new DataAdapter(options);
-        recyclerView.setAdapter(dataAdapter);
+        Intent intent = getIntent();        //get data from User.class
+        String sendToDataAdapter = intent.getExtras().getString("name2");      //get data from User.class
 
+
+        dataAdapter = new DataAdapter(options, sendToDataAdapter);
+        recyclerView.setAdapter(dataAdapter);
 
 
     }
@@ -79,7 +85,7 @@ public class MyPublications extends AppCompatActivity {
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("type").startAt(str).endAt(str+"~"), RecyclerViewData.class)
                 .build();
 
-        dataAdapter  = new DataAdapter(options);
+        dataAdapter  = new DataAdapter(options,sendToDataAdapter);
         dataAdapter.startListening();
         recyclerView.setAdapter(dataAdapter);
     }

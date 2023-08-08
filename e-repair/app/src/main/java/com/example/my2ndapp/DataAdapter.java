@@ -1,5 +1,6 @@
 package com.example.my2ndapp;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +16,25 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataAdapter.myViewHolder> {
 
 
+    private String sendtodataAdapter;  //data from MyPublications
+
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options) {
+    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendtodataAdapter) {
         super(options);
+        this.sendtodataAdapter = sendtodataAdapter;
     }
+
+
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull RecyclerViewData model) {
         holder.textlocation.setText(model.getLocation());
-        holder.textname.setText(model.getName());
+        holder.textname.setText(sendtodataAdapter);
         holder.texttype.setText(model.getType());
 
     }

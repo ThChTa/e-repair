@@ -116,13 +116,16 @@ public class SignIn extends AppCompatActivity {
                 String isAdmin = documentSnapshot.getString("IsAdmin");
 
                 if ( isAdmin!=null && isAdmin.compareTo("1")==0) {
-
-                    //user is admin
+                    //is admin
                     startActivity(new Intent(getApplicationContext(), Admin.class));
                     finish();
                 }
                 else if (isAdmin!=null && isAdmin.compareTo("0")==0) {
-                    startActivity(new Intent(getApplicationContext(), User.class));
+                    //is user
+                    //startActivity(new Intent(getApplicationContext(), User.class));
+                    Intent i = new Intent(getApplicationContext(), User.class);
+                    i.putExtra("name1", "value1");
+                    startActivity(i);
                     finish();
                 }
                 else{
