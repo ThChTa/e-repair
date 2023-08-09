@@ -1,19 +1,28 @@
 package com.example.my2ndapp;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyPublications extends AppCompatActivity {
@@ -21,7 +30,7 @@ public class MyPublications extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     DataAdapter dataAdapter;
-    String sendToDataAdapter; //pass data from this class to DataAdapter.class
+    String sendToDataAdapter, sendToDataAdapter2; //pass data from this class to DataAdapter.class
 
 
     @Override
@@ -32,20 +41,37 @@ public class MyPublications extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //set the layout of the contents, i.e. list of repeating views in the recycler view
 
-        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("type"), RecyclerViewData.class)
-                .build();
 
         Intent intent = getIntent();        //get data from User.class
         String test = intent.getExtras().getString("emailFromUser");      //get email from User.class
-        //query
 
-        //Query query = FirebaseDatabase.getInstance("name").getReference("Users").orderByChild("email").equalTo(test);
-        //String sendToDataAdapter = query.toString();
-        String sendToDataAdapter = test;
+        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo("paris"), RecyclerViewData.class)
+                .build();
 
-        dataAdapter = new DataAdapter(options, sendToDataAdapter);
+
+
+
+
+        //DatabaseReference zonesRef = FirebaseDatabase.getInstance().getReference("Users");
+       // DatabaseReference zone1NameRef = zonesRef.child("fn").child("4");
+
+       // DataSnapshot dataSnapshot = task.getR
+
+
+       // DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+
+       // sendToDataAdapter = String.valueOf(zone1NameRef);
+
+
+        dataAdapter = new DataAdapter(options, "sendToDataAdapter");
         recyclerView.setAdapter(dataAdapter);
+
+        //sendToDataAdapter="kakka";
+       // String sendToDataAdapter = name;
+        //String sendToDataAdapter = test;
+
+
 
 
     }
@@ -90,6 +116,7 @@ public class MyPublications extends AppCompatActivity {
                 .build();
 
         dataAdapter  = new DataAdapter(options,sendToDataAdapter);
+
         dataAdapter.startListening();
         recyclerView.setAdapter(dataAdapter);
     }
