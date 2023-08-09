@@ -16,7 +16,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataAdapter.myViewHolder> {
 
 
-    private String sendtodataAdapter;  //data from MyPublications
+    private String sendToDataAdapter;  //data from MyPublications
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -24,9 +24,9 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
      *
      * @param options
      */
-    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendtodataAdapter) {
+    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter) {
         super(options);
-        this.sendtodataAdapter = sendtodataAdapter;
+        this.sendToDataAdapter = sendToDataAdapter;
     }
 
 
@@ -34,7 +34,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull RecyclerViewData model) {
         holder.textlocation.setText(model.getLocation());
-        holder.textname.setText(sendtodataAdapter);
+        holder.textname.setText(sendToDataAdapter);
         holder.texttype.setText(model.getType());
 
     }

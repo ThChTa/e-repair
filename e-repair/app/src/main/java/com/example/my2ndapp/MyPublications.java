@@ -13,7 +13,7 @@ import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.Query;
 
 
 public class MyPublications extends AppCompatActivity {
@@ -37,8 +37,12 @@ public class MyPublications extends AppCompatActivity {
                 .build();
 
         Intent intent = getIntent();        //get data from User.class
-        String sendToDataAdapter = intent.getExtras().getString("name2");      //get data from User.class
+        String test = intent.getExtras().getString("emailFromUser");      //get email from User.class
+        //query
 
+        //Query query = FirebaseDatabase.getInstance("name").getReference("Users").orderByChild("email").equalTo(test);
+        //String sendToDataAdapter = query.toString();
+        String sendToDataAdapter = test;
 
         dataAdapter = new DataAdapter(options, sendToDataAdapter);
         recyclerView.setAdapter(dataAdapter);

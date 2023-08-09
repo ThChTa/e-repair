@@ -31,7 +31,7 @@ public class SignIn extends AppCompatActivity {
     private Button buttonForSignIn,buttonForSignUp;
     private EditText emailGap,passwordGap;
 
-    int k =1;
+    String emailToSend; //send it to next activity
     FirebaseAuth firebaseAuthSignIn;
     FirebaseFirestore firebaseFirestore;
 
@@ -124,7 +124,8 @@ public class SignIn extends AppCompatActivity {
                     //is user
                     //startActivity(new Intent(getApplicationContext(), User.class));
                     Intent i = new Intent(getApplicationContext(), User.class);
-                    i.putExtra("name1", "value1");
+                    emailToSend=emailGap.getText().toString();
+                    i.putExtra("emailFromSignIn", emailToSend);
                     startActivity(i);
                     finish();
                 }

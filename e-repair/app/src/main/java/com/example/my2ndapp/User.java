@@ -14,9 +14,11 @@ import org.checkerframework.common.reflection.qual.NewInstance;
 
 public class User extends AppCompatActivity {
 
-    private Button logoutU;
+     private Button logoutU;
      Button rv;
      TextView tv;
+
+     private String emailFromSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,8 @@ public class User extends AppCompatActivity {
         tv = findViewById(R.id.aa);
 
         Intent intent = getIntent();
-        String name = intent.getExtras().getString("name1");
-        tv.setText(name);
+        emailFromSignIn = intent.getExtras().getString("emailFromSignIn");
+        tv.setText(emailFromSignIn);
 
 
         rv.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +39,7 @@ public class User extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 //startActivity(new Intent(getApplicationContext(), MyPublications.class));
                 Intent i = new Intent(User.this, MyPublications.class);
-                i.putExtra("name2", "value2");
+                i.putExtra("emailFromUser", emailFromSignIn);
                 startActivity(i);
                 finish();
             }
