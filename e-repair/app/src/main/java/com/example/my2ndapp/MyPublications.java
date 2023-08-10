@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,8 @@ public class MyPublications extends AppCompatActivity {
     DataAdapter dataAdapter;
     String sendToDataAdapter, sendToDataAdapter2; //pass data from this class to DataAdapter.class
 
+    TextView tv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class MyPublications extends AppCompatActivity {
 
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //set the layout of the contents, i.e. list of repeating views in the recycler view
-
+        tv = findViewById(R.id.textView4);
 
         Intent intent = getIntent();        //get data from User.class
         String test = intent.getExtras().getString("emailFromUser");      //get email from User.class
