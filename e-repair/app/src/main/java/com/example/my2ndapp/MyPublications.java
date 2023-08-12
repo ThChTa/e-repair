@@ -45,44 +45,48 @@ public class MyPublications extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //set the layout of the contents, i.e. list of repeating views in the recycler view
         tv = findViewById(R.id.textView4);
 
-        Intent intent = getIntent();        //get data from User.class
-        String test = intent.getExtras().getString("emailFromUser");      //get email from User.class
+        Intent intent = getIntent();
+        String test = intent.getExtras().getString("emailFromUser");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference jobsRef = database.getReference("jobs");
 
         FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo("paris"), RecyclerViewData.class)
                 .build();
 
-
-
-
-
-        //DatabaseReference zonesRef = FirebaseDatabase.getInstance().getReference("Users");
-       // DatabaseReference zone1NameRef = zonesRef.child("fn").child("4");
-
-       // DataSnapshot dataSnapshot = task.getR
-
-
-       // DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
-
-       // sendToDataAdapter = String.valueOf(zone1NameRef);
-
-
-        dataAdapter = new DataAdapter(options, "sendToDataAdapter");
+        // Initialize the RecyclerView and DataAdapter
+        dataAdapter = new DataAdapter(options, null); // Initialize with a temporary value
         recyclerView.setAdapter(dataAdapter);
 
-        //sendToDataAdapter="kakka";
-       // String sendToDataAdapter = name;
-        //String sendToDataAdapter = test;
+        // Query the data
+        jobsRef.orderByChild("type").equalTo("t2").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                    sendToDataAdapter = (String) jobSnapshot.child("name").getValue();
+                    Log.d("JobName", sendToDataAdapter);
 
+                    // Now that you have retrieved sendToDataAdapter, update the DataAdapter
+                    dataAdapter.updateSendToDataAdapter(sendToDataAdapter);
+                }
+            }
 
-
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+            }
+        });
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        dataAdapter.startListening();
+        if (dataAdapter != null) {
+            dataAdapter.startListening();
+        }
     }
 
     @Override
@@ -90,7 +94,7 @@ public class MyPublications extends AppCompatActivity {
         super.onStop();
         dataAdapter.stopListening();
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {    //for action bar
 
@@ -122,5 +126,6 @@ public class MyPublications extends AppCompatActivity {
 
         dataAdapter.startListening();
         recyclerView.setAdapter(dataAdapter);
-    }
+    }*/
+
 }
