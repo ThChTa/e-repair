@@ -59,8 +59,4 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         }
     }
 
-    public void updateSendToDataAdapter(String newValue) {
-        sendToDataAdapter = newValue;
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
-    }
 }
