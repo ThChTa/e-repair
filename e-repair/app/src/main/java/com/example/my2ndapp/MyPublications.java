@@ -33,8 +33,6 @@ public class MyPublications extends AppCompatActivity {
     DataAdapter dataAdapter;
     String sendToDataAdapter, sendToDataAdapter2; //pass data from this class to DataAdapter.class
 
-    TextView tv;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,44 +41,43 @@ public class MyPublications extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tv = findViewById(R.id.textView4);
 
         Intent intent = getIntent();
         String test = intent.getExtras().getString("emailFromUser");
 
+        //set query DB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference jobsRef = database.getReference("Users");
+        DatabaseReference query = database.getReference("Users");
 
-        jobsRef.orderByChild("email").equalTo(test).addValueEventListener(new ValueEventListener() {
+        //query starts
+
+        query.orderByChild("email").equalTo(test).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
-                    sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();
-                    Log.d("name", sendToDataAdapter);
+                    sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name
+                    Log.d("name", sendToDataAdapter); //print for testing with tag: name
 
-                    // Now that you have retrieved sendToDataAdapter, set up FirebaseRecyclerOptions here
+                    //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
                     FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
                             .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo(sendToDataAdapter), RecyclerViewData.class)
                             .build();
 
-                    // Initialize the DataAdapter with the correct options and sendToDataAdapter
+                    //Initialize the DataAdapter with the correct options and sendToDataAdapter
                     dataAdapter = new DataAdapter(options, sendToDataAdapter);
                     recyclerView.setAdapter(dataAdapter);
 
-                    // You can also start listening to the adapter here
+                    //start listening to the adapter here
                     dataAdapter.startListening();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
             }
         });
     }
-
-
-
 
 
     @Override
