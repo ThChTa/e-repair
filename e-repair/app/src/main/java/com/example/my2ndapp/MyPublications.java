@@ -76,9 +76,8 @@ public class MyPublications extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
             }
-        });
+        });  //query ends
     }
-
 
     @Override
     protected void onStart() {
