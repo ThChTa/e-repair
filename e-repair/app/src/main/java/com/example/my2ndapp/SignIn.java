@@ -63,7 +63,7 @@ public class SignIn extends AppCompatActivity {
                 Log.d("TAG","onClick: " + emailGap.getText().toString());
 
                 String email, password;
-                email = String.valueOf(emailGap.getText());
+                email = String.valueOf(emailGap.getText()).toLowerCase();
                 password = String.valueOf(passwordGap.getText());
 
                 if(TextUtils.isEmpty(email)){
@@ -124,7 +124,7 @@ public class SignIn extends AppCompatActivity {
                     //is user
                     //startActivity(new Intent(getApplicationContext(), User.class));
                     Intent i = new Intent(getApplicationContext(), User.class);
-                    emailToSend=emailGap.getText().toString();
+                    emailToSend=emailGap.getText().toString().toLowerCase();
                     i.putExtra("emailFromSignIn", emailToSend);
                     startActivity(i);
                     finish();

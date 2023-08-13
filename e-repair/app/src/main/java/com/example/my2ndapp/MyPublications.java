@@ -31,7 +31,7 @@ public class MyPublications extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     DataAdapter dataAdapter;
-    String sendToDataAdapter, sendToDataAdapter2; //pass data from this class to DataAdapter.class
+    String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
 
 
     @Override
@@ -55,8 +55,12 @@ public class MyPublications extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
-                    sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name
-                    Log.d("name", sendToDataAdapter); //print for testing with tag: name
+                    sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
+                    sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
+
+                    sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
+                    sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
+                    Log.d("full_name", sendToDataAdapter2); //print for testing with tag: full_name
 
                     //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
                     FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
@@ -64,7 +68,7 @@ public class MyPublications extends AppCompatActivity {
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapter = new DataAdapter(options, sendToDataAdapter);
+                    dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
                     recyclerView.setAdapter(dataAdapter);
 
                     //start listening to the adapter here

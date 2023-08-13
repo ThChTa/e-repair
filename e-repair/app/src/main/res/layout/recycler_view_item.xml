@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="6dp"
+    app:cardCornerRadius="8dp"
     android:elevation="6dp"
     app:cardUseCompatPadding="true">
-    
-    
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/wave__1_"
         android:padding="15dp">
 
         <TextView
@@ -46,6 +47,36 @@
             android:drawableStart="@drawable/baseline_location_on_24"
             android:layout_below="@+id/type">
         </TextView>
+
+        <LinearLayout
+            android:layout_below="@id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonEdit"
+                android:layout_width="173dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:background="@drawable/custom_button_for_my_publications_edit"
+                android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="173dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:background="@drawable/custom_button_for_my_publications_delete"
+                android:textAllCaps="false"/>
+
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

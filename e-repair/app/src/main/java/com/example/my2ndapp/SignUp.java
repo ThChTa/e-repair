@@ -106,7 +106,7 @@ public class SignUp extends AppCompatActivity {
                 fname = String.valueOf(FirstNameGap.getText());
                 lname = String.valueOf(LastNameGap.getText());
                 categ = spinner.getSelectedItem().toString();
-                email = String.valueOf(emailGap.getText());
+                email = String.valueOf(emailGap.getText()).toLowerCase();
                 password = String.valueOf(EnterValidPasswordGap.getText());
 
 
@@ -208,7 +208,7 @@ public class SignUp extends AppCompatActivity {
         fname = String.valueOf(FirstNameGap.getText());
         lname = String.valueOf(LastNameGap.getText());
         categ = spinner.getSelectedItem().toString();
-        email = String.valueOf(emailGap.getText());
+        email = String.valueOf(emailGap.getText()).toLowerCase();
 
         if(categ.equals("user")){
             isAdmin="0";

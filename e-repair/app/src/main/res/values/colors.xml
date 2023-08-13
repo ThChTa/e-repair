@@ -4,4 +4,8 @@
     <color name="white">#FFFFFF</color>
     <color name="myBlue">#0E173F</color>
     <color name="myGray">#9396A1</color>
+    <color name="myGrayRV">#D8DAE1</color>
+    <color name="myMegaColor">#d0003d</color>
+    <color name="myAirColor">#ff6B73</color>
+
 </resources>
