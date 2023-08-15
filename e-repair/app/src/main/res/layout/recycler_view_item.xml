@@ -60,6 +60,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/myBlue"
+                android:textStyle="bold"
                 android:text="Edit"
                 android:background="@drawable/custom_button_for_my_publications_edit"
                 android:textAllCaps="false"/>
@@ -69,6 +71,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:text="Delete"
                 android:background="@drawable/custom_button_for_my_publications_delete"
                 android:textAllCaps="false"/>
