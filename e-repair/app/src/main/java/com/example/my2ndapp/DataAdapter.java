@@ -36,6 +36,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.textlocation.setText(model.getLocation());
         holder.textname.setText(sendToDataAdapter);
         holder.texttype.setText(model.getType());
+        holder.textdescription.setText(model.getDescription());
 
     }
 
@@ -48,13 +49,14 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textlocation, textname, texttype;
+        TextView textlocation, textname, texttype, textdescription;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             textlocation = (TextView)itemView.findViewById(R.id.location);
             textname = (TextView)itemView.findViewById(R.id.name);
             texttype = (TextView)itemView.findViewById(R.id.type);
+            textdescription = (TextView)itemView.findViewById(R.id.description);
 
         }
     }

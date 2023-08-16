@@ -48,8 +48,19 @@
             android:layout_below="@+id/type">
         </TextView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Description"
+            android:drawableStart="@drawable/baseline_description_24"
+            android:layout_below="@+id/location">
+        </TextView>
+
         <LinearLayout
-            android:layout_below="@id/location"
+            android:layout_below="@id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
