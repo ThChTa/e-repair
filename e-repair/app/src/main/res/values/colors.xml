@@ -7,6 +7,8 @@
     <color name="myGrayRV">#D8DAE1</color>
     <color name="myMegaColor">#d0003d</color>
     <color name="myAirColor">#ff6B73</color>
-    <color name="bbb">#FF0000</color>
+    <color name="myDelete">#FF0000</color>
+    <color name="myEdit">#B3ECEC</color>
+
 
 </resources>

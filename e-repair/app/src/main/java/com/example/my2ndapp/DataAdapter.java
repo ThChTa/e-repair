@@ -1,17 +1,21 @@
 package com.example.my2ndapp;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.firebase.ui.database.FirebaseListOptions;
+import androidx.recyclerview.widget.RecyclerView;  // Correct import for RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataAdapter.myViewHolder> {
 
@@ -38,6 +42,53 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.texttype.setText(model.getType());
         holder.textdescription.setText(model.getDescription());
 
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.update_popup))
+                        .setExpanded(true,1100)
+                        .create();
+
+                //dialogPlus.show();
+
+                View view = dialogPlus.getHolderView();
+
+                EditText newtype = view.findViewById(R.id.txtType);
+                EditText newlocation = view.findViewById(R.id.txtLocation);
+                EditText newdescription = view.findViewById(R.id.txtDescription);
+
+                Button btnUpdate = view.findViewById(R.id.btnUpdate);
+
+                newtype.setText(model.getType());
+                newlocation.setText(model.getLocation());
+                newdescription.setText(model.getDescription());
+
+                dialogPlus.show();
+
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("type", newtype.getText().toString());
+                        map.put("location", newlocation.getText().toString());
+                        map.put("description", newdescription.getText().toString());
+
+                        String itemKey = getRef(holder.getAdapterPosition()).getKey(); // Use holder.getAdapterPosition() instead of position
+
+                        FirebaseDatabase.getInstance().getReference().child("jobs").child(itemKey).updateChildren(map)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        dialogPlus.dismiss(); // Close the dialog upon successful update
+                                    }
+                                });
+                    }
+                });
+
+            }
+        });
+
     }
 
     @NonNull
@@ -51,12 +102,17 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
         TextView textlocation, textname, texttype, textdescription;
 
+        Button btnEdit, btnDelete;
+
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             textlocation = (TextView)itemView.findViewById(R.id.location);
             textname = (TextView)itemView.findViewById(R.id.name);
             texttype = (TextView)itemView.findViewById(R.id.type);
             textdescription = (TextView)itemView.findViewById(R.id.description);
+
+            btnEdit = (Button)itemView.findViewById(R.id.buttonEdit);
+            btnDelete = (Button)itemView.findViewById(R.id.buttonDelete);
 
         }
     }
