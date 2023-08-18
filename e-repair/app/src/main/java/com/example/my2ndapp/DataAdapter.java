@@ -1,5 +1,7 @@
 package com.example.my2ndapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.text.AllCapsTransformationMethod;
 import androidx.recyclerview.widget.RecyclerView;  // Correct import for RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -86,6 +89,31 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                     }
                 });
 
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.textname.getContext());
+                builder.setTitle("Are you Sure?");
+                builder.setMessage("Deleted Data cannot be Undo.");
+
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(holder.getAdapterPosition()).getKey()).removeValue();
+                        // instead of FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(position).getKey()).removeValue();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
             }
         });
 

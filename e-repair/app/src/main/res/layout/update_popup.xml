@@ -33,7 +33,7 @@
         android:gravity="center"
         android:text="-"
         android:textColor="@color/black"
-        android:background="@drawable/default_round_button"/>
+        android:background="@drawable/round_edit"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:textSize="20sp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5sp"
-        android:text="newLocation"
+        android:text="Location"
         android:textColor="@color/black"/>
 
     <EditText
@@ -54,7 +54,7 @@
         android:gravity="center"
         android:text="-"
         android:textColor="@color/black"
-        android:background="@drawable/default_round_button"/>
+        android:background="@drawable/round_edit"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -69,20 +69,20 @@
     <EditText
         android:id="@+id/txtDescription"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="100dp"
         android:maxHeight="150dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:text="-"
         android:textColor="@color/black"
-        android:background="@drawable/default_round_button"/>
+        android:background="@drawable/round_edit"/>
     
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="30dp"
         android:text="Update"
         android:textSize="21sp"
