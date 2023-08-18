@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.AddActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +35,8 @@ public class MyPublications extends AppCompatActivity {
 
     DataAdapter dataAdapter;
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
+
+    FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -81,6 +86,14 @@ public class MyPublications extends AppCompatActivity {
                 Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
             }
         });  //query ends
+
+        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AddActivity.class));
+            }
+        });
     }
 
     @Override
