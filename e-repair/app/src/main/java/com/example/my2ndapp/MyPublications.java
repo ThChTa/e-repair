@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ public class MyPublications extends AppCompatActivity {
 
     DataAdapter dataAdapter;
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
+
+    Button button;
 
     FloatingActionButton floatingActionButton;
 
@@ -87,13 +90,30 @@ public class MyPublications extends AppCompatActivity {
             }
         });  //query ends
 
+        button = (Button)findViewById(R.id.bckBtnToUser);
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyPublications.this, User.class);
+                i.putExtra("emailFromMyPublications", test);
+                startActivity(i);
+
+            }
+        });
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), AddActivity.class));
             }
         });
+    }
+
+    public void openPrevActivity(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
     }
 
     @Override

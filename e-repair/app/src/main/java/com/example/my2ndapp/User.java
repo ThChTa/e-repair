@@ -29,8 +29,22 @@ public class User extends AppCompatActivity {
         tv = findViewById(R.id.aa);
 
         Intent intent = getIntent();
-        emailFromSignIn = intent.getExtras().getString("emailFromSignIn");
-        tv.setText(emailFromSignIn);
+        if (intent != null && intent.hasExtra("emailFromSignIn")) {
+            emailFromSignIn = intent.getStringExtra("emailFromSignIn");
+            if (emailFromSignIn != null) {
+                tv.setText(emailFromSignIn);
+            } else {
+                // Handle the case where emailFromSignIn is null
+            }
+        } else {
+            emailFromSignIn = intent.getStringExtra("emailFromMyPublications");
+            if (emailFromSignIn != null) {
+                tv.setText(emailFromSignIn);
+            }
+
+            // Handle the case where the intent or the extra doesn't exist
+        }
+
 
 
         rv.setOnClickListener(new View.OnClickListener() {
