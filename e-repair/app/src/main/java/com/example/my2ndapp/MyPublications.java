@@ -37,7 +37,7 @@ public class MyPublications extends AppCompatActivity {
     DataAdapter dataAdapter;
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
 
-    Button button;
+    Button backbButton;
 
     FloatingActionButton floatingActionButton;
 
@@ -51,7 +51,7 @@ public class MyPublications extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
-        String test = intent.getExtras().getString("emailFromUser");
+        String emailFromUser = intent.getExtras().getString("emailFromUser");
 
         //set query DB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -59,7 +59,7 @@ public class MyPublications extends AppCompatActivity {
 
         //query starts
 
-        query.orderByChild("email").equalTo(test).addValueEventListener(new ValueEventListener() {
+        query.orderByChild("email").equalTo(emailFromUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
@@ -90,14 +90,14 @@ public class MyPublications extends AppCompatActivity {
             }
         });  //query ends
 
-        button = (Button)findViewById(R.id.bckBtnToUser);
+        backbButton = (Button)findViewById(R.id.bckBtnToUser);
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        backbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MyPublications.this, User.class);
-                i.putExtra("emailFromMyPublications", test);
+                i.putExtra("emailFromMyPublications", emailFromUser);
                 startActivity(i);
 
             }
@@ -106,15 +106,15 @@ public class MyPublications extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddActivity.class));
+                Intent i = new Intent(MyPublications.this, AddActivity.class);
+                i.putExtra("firstNameFromMyPublications", sendToDataAdapter);
+                startActivity(i);
+
             }
         });
+
     }
 
-    public void openPrevActivity(){
-        Intent intent = new Intent(this, User.class);
-        startActivity(intent);
-    }
 
     @Override
     protected void onStart() {

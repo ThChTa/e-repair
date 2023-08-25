@@ -18,7 +18,7 @@ public class User extends AppCompatActivity {
      Button rv;
      TextView tv;
 
-     private String emailFromSignIn;
+     private String emailFromSignIn,emailFromMyPublications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,10 @@ public class User extends AppCompatActivity {
                 // Handle the case where emailFromSignIn is null
             }
         } else {
-            emailFromSignIn = intent.getStringExtra("emailFromMyPublications");
-            if (emailFromSignIn != null) {
-                tv.setText(emailFromSignIn);
+            emailFromMyPublications = intent.getStringExtra("emailFromMyPublications");
+            if (emailFromMyPublications != null) {
+                tv.setText(emailFromMyPublications);
+                emailFromSignIn = emailFromMyPublications;
             }
 
             // Handle the case where the intent or the extra doesn't exist

@@ -2,6 +2,7 @@ package com.example;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +18,15 @@ public class AddActivity extends AppCompatActivity {
 
     EditText type,location,description;
     Button btnAdd;
+    String firstNameFromMyPublications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        Intent intent = getIntent();
+        firstNameFromMyPublications = intent.getExtras().getString("firstNameFromMyPublications");
 
         type = (EditText)findViewById(R.id.addType);
         location = (EditText)findViewById(R.id.addLocation);
@@ -40,6 +45,7 @@ public class AddActivity extends AppCompatActivity {
     private void insertData(){
 
         Map<String,Object> map = new HashMap<>();
+        map.put("name",firstNameFromMyPublications);
         map.put("type",type.getText().toString());
         map.put("location",location.getText().toString());
         map.put("description",description.getText().toString());
