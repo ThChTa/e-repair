@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -37,7 +38,8 @@ public class MyPublications extends AppCompatActivity {
     DataAdapter dataAdapter;
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
 
-    Button backbButton;
+    Button backButton;
+    ImageButton imageButton;
 
     FloatingActionButton floatingActionButton;
 
@@ -50,8 +52,21 @@ public class MyPublications extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        imageButton = (ImageButton) findViewById(R.id.imageButtonMyPublications);
+
         Intent intent = getIntent();
         String emailFromUser = intent.getExtras().getString("emailFromUser");
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyPublications.this, User.class);
+                i.putExtra("emailFromMyPublications", emailFromUser);
+                startActivity(i);
+            }
+        });
+
+
 
         //set query DB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -90,10 +105,10 @@ public class MyPublications extends AppCompatActivity {
             }
         });  //query ends
 
-        backbButton = (Button)findViewById(R.id.bckBtnToUser);
+        backButton = (Button)findViewById(R.id.bckBtnToUser);
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
 
-        backbButton.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MyPublications.this, User.class);
