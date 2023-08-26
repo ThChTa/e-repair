@@ -5,15 +5,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Add New Publication"
-        android:background="@color/myBlue"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imageButtonAddActivity"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="back"
+            android:scaleType="fitXY"
+            android:src="@drawable/back"
+            android:translationZ="2dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/myBlue"
+            android:gravity="center"
+            android:text="Add New Publication"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"

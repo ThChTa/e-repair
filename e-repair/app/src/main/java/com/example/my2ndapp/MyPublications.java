@@ -37,8 +37,6 @@ public class MyPublications extends AppCompatActivity {
 
     DataAdapter dataAdapter;
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
-
-    Button backButton;
     ImageButton imageButton;
 
     FloatingActionButton floatingActionButton;
@@ -53,19 +51,48 @@ public class MyPublications extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         imageButton = (ImageButton) findViewById(R.id.imageButtonMyPublications);
+        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);  //plus btn
 
         Intent intent = getIntent();
         String emailFromUser = intent.getExtras().getString("emailFromUser");
+        String emailFromAddActivity = intent.getExtras().getString("emailFromAddActivityToMyPublications");
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        Log.d("sos1","emailFromUser = " + emailFromUser + ", emailFromAddActivity = " + emailFromAddActivity);
+
+
+
+
+        imageButton.setOnClickListener(new View.OnClickListener() {   //when back btn is clicked
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MyPublications.this, User.class);
-                i.putExtra("emailFromMyPublications", emailFromUser);
+                if(emailFromUser != null){
+                    i.putExtra("emailFromMyPublications", emailFromUser);
+                }else{
+                    i.putExtra("emailFromMyPublications", emailFromAddActivity);
+                }
+
                 startActivity(i);
             }
         });
 
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {       //when plus btn is clicked
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyPublications.this, AddActivity.class);
+                i.putExtra("firstNameFromMyPublications", sendToDataAdapter);
+
+                if(emailFromUser != null){
+                    i.putExtra("emailFromMyPublications", emailFromUser);
+                }else{
+                    i.putExtra("emailFromMyPublications", emailFromAddActivity);
+                }// from MyPublications to AddActivity
+
+                startActivity(i);
+
+            }
+        });
 
 
         //set query DB
@@ -74,62 +101,78 @@ public class MyPublications extends AppCompatActivity {
 
         //query starts
 
-        query.orderByChild("email").equalTo(emailFromUser).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
-                    sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
-                    sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
+        if(emailFromUser != null){   //when navigate from User.class
+            query.orderByChild("email").equalTo(emailFromUser).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                        sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
+                        sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
 
-                    sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
-                    sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
-                    Log.d("full_name", sendToDataAdapter2); //print for testing with tag: full_name
+                        sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
+                        sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
+                        Log.d("full_name", sendToDataAdapter2); //print for testing with tag: full_name
 
-                    //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
-                    FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
-                            .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo(sendToDataAdapter), RecyclerViewData.class)
-                            .build();
+                        //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
+                        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo(sendToDataAdapter), RecyclerViewData.class)
+                                .build();
 
-                    //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
-                    recyclerView.setAdapter(dataAdapter);
+                        //Initialize the DataAdapter with the correct options and sendToDataAdapter
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        recyclerView.setAdapter(dataAdapter);
 
-                    //start listening to the adapter here
-                    dataAdapter.startListening();
+                        //start listening to the adapter here
+                        dataAdapter.startListening();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
-            }
-        });  //query ends
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
+                }
+            });  //query ends
 
-        backButton = (Button)findViewById(R.id.bckBtnToUser);
-        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MyPublications.this, User.class);
-                i.putExtra("emailFromMyPublications", emailFromUser);
-                startActivity(i);
 
-            }
-        });
+        }   //if statement ends
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MyPublications.this, AddActivity.class);
-                i.putExtra("firstNameFromMyPublications", sendToDataAdapter);
-                startActivity(i);
+        else {             //when navigate from AddActivity.class
+            query.orderByChild("email").equalTo(emailFromAddActivity).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                        sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
+                        sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
 
-            }
-        });
+                        sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
+                        sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
+                        Log.d("full_name", sendToDataAdapter2); //print for testing with tag: full_name
+
+                        //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
+                        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo(sendToDataAdapter), RecyclerViewData.class)
+                                .build();
+
+                        //Initialize the DataAdapter with the correct options and sendToDataAdapter
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        recyclerView.setAdapter(dataAdapter);
+
+                        //start listening to the adapter here
+                        dataAdapter.startListening();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
+                }
+            });  //query ends
+
+        }       //else ends
+
 
     }
-
 
     @Override
     protected void onStart() {
