@@ -2,6 +2,7 @@ package com.example.my2ndapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,13 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.textname.setText(sendToDataAdapter);
         holder.texttype.setText(model.getType());
         holder.textdescription.setText(model.getDescription());
+        holder.textid.setText(String.valueOf(model.getPublicationId()));
+
+        Log.d("textdescription", "textdescription : " + model.getDescription());
+        Log.d("textid", "textid : " + model.getPublicationId());
+
+
+
 
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +136,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textlocation, textname, texttype, textdescription;
+        TextView textlocation, textname, texttype, textdescription, textid;
 
         Button btnEdit, btnDelete;
 
@@ -138,6 +146,8 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             textname = (TextView)itemView.findViewById(R.id.name);
             texttype = (TextView)itemView.findViewById(R.id.type);
             textdescription = (TextView)itemView.findViewById(R.id.description);
+            textid = (TextView)itemView.findViewById(R.id.publicationId);
+
 
             btnEdit = (Button)itemView.findViewById(R.id.buttonEdit);
             btnDelete = (Button)itemView.findViewById(R.id.buttonDelete);
