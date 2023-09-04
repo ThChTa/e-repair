@@ -12,16 +12,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/wave__1_"
         android:padding="15dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/name"
+            android:background="@drawable/round_textview"
             android:textStyle="bold"
             android:textSize="25sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="Name"
             android:textAlignment="center">
         </TextView>
@@ -63,10 +63,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/publicationId"
-            android:textSize="25sp"
-            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textColor="@color/myGray"
             android:text="Description"
-            android:drawableStart="@drawable/baseline_description_24"
+            android:drawableStart="@drawable/baseline_numbers_24"
             android:layout_below="@+id/description">
         </TextView>
 

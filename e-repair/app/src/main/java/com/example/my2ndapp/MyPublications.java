@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.AddActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -32,6 +33,7 @@ import java.util.List;
 
 
 public class MyPublications extends AppCompatActivity {
+
 
     private RecyclerView recyclerView;
 
