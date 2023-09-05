@@ -117,7 +117,11 @@ public class SignIn extends AppCompatActivity {
 
                 if ( isAdmin!=null && isAdmin.compareTo("1")==0) {
                     //is admin
-                    startActivity(new Intent(getApplicationContext(), Admin.class));
+                    //startActivity(new Intent(getApplicationContext(), Admin.class));
+                    Intent i = new Intent(getApplicationContext(), Admin.class);
+                    emailToSend=emailGap.getText().toString().toLowerCase();
+                    i.putExtra("emailFromSignIn", emailToSend);
+                    startActivity(i);
                     finish();
                 }
                 else if (isAdmin!=null && isAdmin.compareTo("0")==0) {

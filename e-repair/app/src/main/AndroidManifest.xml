@@ -15,6 +15,9 @@
         android:theme="@style/Theme.My2ndApp"
         tools:targetApi="31">
         <activity
+            android:name=".Publications"
+            android:exported="false" />
+        <activity
             android:name="com.example.AddActivity"
             android:exported="false" />
         <activity
