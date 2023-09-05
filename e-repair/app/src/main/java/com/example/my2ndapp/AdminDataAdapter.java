@@ -43,15 +43,13 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_recycler_view_item,parent,false);
         return new myViewHolder(view);
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
         TextView textlocation, textname, texttype, textdescription, textid;
-
-        Button btnEdit, btnDelete;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);

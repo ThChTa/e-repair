@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:elevation="6dp"
+    app:cardUseCompatPadding="true">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:background="@drawable/round_textview"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:text="Name"
+            android:textAlignment="center">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/type"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Type"
+            android:drawableStart="@drawable/baseline_handyman_24"
+            android:layout_below="@+id/name">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/location"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Location"
+            android:drawableStart="@drawable/baseline_location_on_24"
+            android:layout_below="@+id/type">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Description"
+            android:drawableStart="@drawable/baseline_description_24"
+            android:layout_below="@+id/location">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/publicationId"
+            android:textSize="15sp"
+            android:textColor="@color/myGray"
+            android:text="Description"
+            android:drawableStart="@drawable/baseline_numbers_24"
+            android:layout_below="@+id/description">
+        </TextView>
+
+        <LinearLayout
+            android:layout_below="@id/publicationId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonEdit"
+                android:layout_width="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/myBlue"
+                android:textStyle="bold"
+                android:text="Request"
+                android:background="@drawable/custom_button_for_my_publications_edit"
+                android:textAllCaps="false"/>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
