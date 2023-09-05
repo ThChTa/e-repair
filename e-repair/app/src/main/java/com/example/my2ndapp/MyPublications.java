@@ -84,6 +84,7 @@ public class MyPublications extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MyPublications.this, AddActivity.class);
                 i.putExtra("firstNameFromMyPublications", sendToDataAdapter);
+                i.putExtra("lastNameFromMyPublications", sendToDataAdapter2);
 
                 if(emailFromUser != null){
                     i.putExtra("emailFromMyPublications", emailFromUser);

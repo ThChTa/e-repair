@@ -26,7 +26,7 @@ public class Admin extends AppCompatActivity {
     Button rv;
     TextView tv;
 
-    private String emailFromSignIn,emailFromMyPublications, name;
+    private String emailFromSignIn,emailFromPublications, name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +45,10 @@ public class Admin extends AppCompatActivity {
                 // Handle the case where emailFromSignIn is null
             }
         } else {
-            emailFromMyPublications = intent.getStringExtra("emailFromMyPublications");
-            if (emailFromMyPublications != null) {
-                tv.setText(emailFromMyPublications);
-                emailFromSignIn = emailFromMyPublications;
+            emailFromPublications = intent.getStringExtra("emailFromPublications");
+            if (emailFromPublications != null) {
+                tv.setText(emailFromPublications);
+                emailFromSignIn = emailFromPublications;
             }
 
             // Handle the case where the intent or the extra doesn't exist
@@ -86,7 +86,7 @@ public class Admin extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 //startActivity(new Intent(getApplicationContext(), MyPublications.class));
                 Intent i = new Intent(Admin.this, Publications.class);
-                i.putExtra("emailFromUser", emailFromSignIn);
+                i.putExtra("emailFromAdmin", emailFromSignIn);
                 startActivity(i);
                 finish();
             }

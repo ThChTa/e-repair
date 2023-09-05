@@ -34,7 +34,7 @@ public class AddActivity extends AppCompatActivity {
     EditText type,location,description;
     Button btnAdd;
     ImageButton imageButton;
-    String firstNameFromMyPublications, emailFromMyPublicationsToAddActivity;
+    String firstNameFromMyPublications,lastNameFromMyPublications, emailFromMyPublicationsToAddActivity;
 
 
     @Override
@@ -43,7 +43,8 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
 
         Intent intent = getIntent();
-        firstNameFromMyPublications = intent.getExtras().getString("firstNameFromMyPublications");  //get first name from MyPublications
+        firstNameFromMyPublications = intent.getExtras().getString("firstNameFromMyPublications");  //get first name and last name from MyPublications
+        lastNameFromMyPublications = intent.getExtras().getString("lastNameFromMyPublications");  //get first name and last name from MyPublications
         emailFromMyPublicationsToAddActivity = intent.getExtras().getString("emailFromMyPublications"); //get email from MyPublications to send it back when back btn is clicked
 
         //Log.d("sos2","firstNameFromMyPublications = " + firstNameFromMyPublications + ", emailFromMyPublicationsToAddActivity = " + emailFromMyPublicationsToAddActivity);
@@ -78,6 +79,7 @@ public class AddActivity extends AppCompatActivity {
     private void insertData() {
         Map<String, Object> map = new HashMap<>();      //create map to insert
         map.put("name", firstNameFromMyPublications);       //insert
+        map.put("lastName", lastNameFromMyPublications);       //insert
         map.put("type", type.getText().toString());             //insert
         map.put("location", location.getText().toString());         //insert
         map.put("description", description.getText().toString());       //insert
