@@ -161,6 +161,10 @@ public class SignUp extends AppCompatActivity {
 
                                         Toast.makeText(SignUp.this, "Now, sign in with your credentials", Toast.LENGTH_SHORT).show();
 
+                                        // member.setSpinner(spinner.getSelectedItem().toString());
+                                        Toast.makeText(SignUp.this, "Spinner Successfully", Toast.LENGTH_SHORT).show();
+                                        insertUserAdminData();
+
 
                                     } else {
                                         // If sign in fails, display a message to the user.
@@ -172,9 +176,7 @@ public class SignUp extends AppCompatActivity {
 
                 }
 
-               // member.setSpinner(spinner.getSelectedItem().toString());
-                Toast.makeText(SignUp.this, "Spinner Successfully", Toast.LENGTH_SHORT).show();
-                insertUserAdminData();
+
 
 
 
