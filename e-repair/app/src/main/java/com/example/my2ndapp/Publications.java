@@ -79,22 +79,42 @@ public class Publications extends AppCompatActivity {
 
         //set query DB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference query = database.getReference("Users");
-
-        //query starts
+        DatabaseReference query = database.getReference("Users");  //get table
 
 
-        //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
-        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
-        .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("type").equalTo("example"), RecyclerViewData.class)
-        .build();
+        query.orderByChild("email").equalTo(emailFromAdmin).addListenerForSingleValueEvent(new ValueEventListener() {  //from specific email find type
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
+                    // Access the item with the specified id
+                    String getAdminType = itemSnapshot.child("type").getValue(String.class);      //get type
 
-        //Initialize the DataAdapter with the correct options and sendToDataAdapter
-        dataAdapter = new AdminDataAdapter(options); //show to RV the full name
-        recyclerView.setAdapter(dataAdapter);
 
-        //start listening to the adapter here
-        dataAdapter.startListening();
+                    //query starts (show RV data for type=getAdminType)
+
+
+                    //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
+                    FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("type").equalTo(getAdminType), RecyclerViewData.class)
+                            .build();
+
+                    //Initialize the DataAdapter with the correct options and sendToDataAdapter
+                    dataAdapter = new AdminDataAdapter(options); //show to RV the full name
+                    recyclerView.setAdapter(dataAdapter);
+
+                    //start listening to the adapter here
+                    dataAdapter.startListening();
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle any errors that may occur during data retrieval
+            }
+        });
 
 
 

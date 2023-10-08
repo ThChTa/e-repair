@@ -45,7 +45,7 @@ public class SignUp extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference reference;
 
-    //Member member;
+
     int maxId = 0;
 
 

@@ -138,7 +138,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
         TextView textlocation, textname, texttype, textdescription, textid;
 
-        Button btnEdit, btnDelete;
+        Button btnEdit, btnDelete, btnRequests;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -151,6 +151,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
             btnEdit = (Button)itemView.findViewById(R.id.buttonEdit);
             btnDelete = (Button)itemView.findViewById(R.id.buttonDelete);
+            btnRequests = (Button)itemView.findViewById(R.id.buttonRequests);
 
         }
     }

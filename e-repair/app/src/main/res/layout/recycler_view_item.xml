@@ -74,6 +74,11 @@
             android:layout_below="@id/publicationId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
@@ -101,6 +106,22 @@
 
 
         </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonRequests"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Request"
+                android:background="@drawable/custom_button_for_my_publications_requests"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+
+
 
 
     </RelativeLayout>

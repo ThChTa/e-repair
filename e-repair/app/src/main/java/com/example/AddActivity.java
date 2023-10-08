@@ -37,6 +37,7 @@ public class AddActivity extends AppCompatActivity {
     String firstNameFromMyPublications,lastNameFromMyPublications, emailFromMyPublicationsToAddActivity;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,8 +103,18 @@ public class AddActivity extends AppCompatActivity {
                         }
                     }
                 }
-                map.put("publicationId", maxId + 1);                    //insert (max_id + 1) in my new publication
+
+                int temp;
+                temp = maxId+1;
+
+                map.put("publicationId", temp);                    //insert (max_id + 1) in my new publication
                 // maxId will contain the maximum ID value
+
+                map.put("requests",0);                             //when add new publication set requests equal to 0
+
+
+
+
 
 
                 database.getReference("jobs").push().setValue(map);      // Push the new publication to the "jobs" node
@@ -131,7 +142,5 @@ public class AddActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 }

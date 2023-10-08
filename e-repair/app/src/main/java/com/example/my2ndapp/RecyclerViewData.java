@@ -2,21 +2,22 @@ package com.example.my2ndapp;
 
 public class RecyclerViewData {
 
-    // private int id;
-    private String location, name,lastName, type, description;
-    private int publicationId;
+
+    private String location, name, lastName, type, description;
+    private int publicationId, requests;
 
     RecyclerViewData(){
 
     }
 
-    public RecyclerViewData(String location, String name,String lastName, String type, String description, int publicationId) {
+    public RecyclerViewData(String location, String name,String lastName, String type, String description, int publicationId, int requests) {
         this.location = location;
         this.name = name;
         this.lastName= lastName;
         this.type = type;
         this.description = description;
         this.publicationId = publicationId;
+        this.requests = requests;
     }
 
     public String getLocation() {
@@ -61,8 +62,12 @@ public class RecyclerViewData {
         return publicationId;
     }
 
-    public void setPublicationId(int publicationId) {
-        this.publicationId = publicationId;
+    public void setRequests(int requests) {
+        this.requests = requests;
+    }
+
+    public int getRequests() {
+        return requests;
     }
 
 
@@ -74,4 +79,4 @@ public class RecyclerViewData {
 
 
 
-}
+    }

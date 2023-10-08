@@ -65,7 +65,7 @@
             android:id="@+id/publicationId"
             android:textSize="15sp"
             android:textColor="@color/myGray"
-            android:text="Description"
+            android:text="id"
             android:drawableStart="@drawable/baseline_numbers_24"
             android:layout_below="@+id/description">
         </TextView>

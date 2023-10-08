@@ -100,7 +100,7 @@ public class MyPublications extends AppCompatActivity {
 
         //set query DB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference query = database.getReference("Users");
+        DatabaseReference query = database.getReference("Users");       //get table
 
         //query starts
 
