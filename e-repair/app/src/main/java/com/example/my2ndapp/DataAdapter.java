@@ -15,7 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;  // Correct import for Recycle
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import java.util.HashMap;
@@ -51,7 +55,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         Log.d("textid", "textid : " + model.getPublicationId());
 
 
-
+        //EDIT BUTTON
 
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +104,8 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             }
         });
 
+        //EDIT DELETE
+
         holder.btnDelete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -124,6 +130,38 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                 builder.show();
             }
         });
+
+        //EDIT REQUESTS
+        //EDIT REQUESTS
+        holder.btnRequests.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference query = database.getReference("jobs").child(getRef(holder.getAdapterPosition()).getKey()).child("requests");
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists() && dataSnapshot.getValue() instanceof Long) {
+                            Long requests = dataSnapshot.getValue(Long.class);
+                            if (requests != null) {
+                                long newNumOfRequests = requests + 1;
+                                query.setValue(newNumOfRequests);
+                            }
+                        } else {
+                            // Handle the case where the "requests" data is not valid.
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle any errors
+                    }
+                });
+            }
+        });
+
 
     }
 
