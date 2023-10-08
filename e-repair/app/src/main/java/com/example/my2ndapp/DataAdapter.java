@@ -30,6 +30,8 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
     private String sendToDataAdapter;  //data from MyPublications
 
+    int a;
+
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
@@ -131,39 +133,52 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             }
         });
 
-        //EDIT REQUESTS
-        //EDIT REQUESTS
-        holder.btnRequests.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference query = database.getReference("jobs").child(getRef(holder.getAdapterPosition()).getKey()).child("requests");
+            //EDIT REQUESTS
+            holder.btnRequests.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists() && dataSnapshot.getValue() instanceof Long) {
-                            Long requests = dataSnapshot.getValue(Long.class);
-                            if (requests != null) {
-                                long newNumOfRequests = requests + 1;
-                                query.setValue(newNumOfRequests);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference query = database.getReference("jobs").child(getRef(holder.getAdapterPosition()).getKey()).child("requests");
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists() && dataSnapshot.getValue() instanceof Long) {
+                                Long requests = dataSnapshot.getValue(Long.class);
+                                if (requests != null) {
+                                    long newNumOfRequests = requests + 1;
+                                    query.setValue(newNumOfRequests);
+
+                                    // Check the value and hide the button if requests are 0
+                                    if (newNumOfRequests == 0) {
+                                        holder.btnRequests.setVisibility(View.GONE);
+                                    } else {
+                                        holder.btnRequests.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            } else {
+                                // Handle the case where the "requests" data is not valid.
                             }
-                        } else {
-                            // Handle the case where the "requests" data is not valid.
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Handle any errors
-                    }
-                });
-            }
-        });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors
+                        }
+                    });
+                }
+            });
 
+        // Set the visibility of the button initially
+        if (model.getRequests() == 0) {
+            holder.btnRequests.setVisibility(View.GONE);
+        } else {
+            holder.btnRequests.setVisibility(View.VISIBLE);
+        }
+        }
 
-    }
 
     @NonNull
     @Override

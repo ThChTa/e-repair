@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="Request"
+                android:text="Requests"
                 android:background="@drawable/custom_button_for_my_publications_requests"
                 android:textAllCaps="false"/>
 
