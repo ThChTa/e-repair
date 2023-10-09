@@ -28,9 +28,11 @@ import java.util.Map;
 public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataAdapter.myViewHolder> {
 
 
-    private String sendToDataAdapter;  //data from MyPublications
+    private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
+    String fn,ln;  //split string to set them in the table 'requests'
+    Long pId;
 
-    int a;
+
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -91,7 +93,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                         map.put("location", newlocation.getText().toString());
                         map.put("description", newdescription.getText().toString());
 
-                        String itemKey = getRef(holder.getAdapterPosition()).getKey(); // Use holder.getAdapterPosition() instead of position
+                        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getAdapterPosition() instead of position
 
                         FirebaseDatabase.getInstance().getReference().child("jobs").child(itemKey).updateChildren(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -106,7 +108,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             }
         });
 
-        //EDIT DELETE
+        //DELETE BUTTON
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -118,7 +120,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(holder.getAdapterPosition()).getKey()).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).removeValue();
                         // instead of FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(position).getKey()).removeValue();
 
                     }
@@ -134,9 +136,111 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         });
 
 
-            //EDIT REQUESTS
+            //REQUESTS BUTTON
             holder.btnRequests.setOnClickListener(new View.OnClickListener() {
+
                 @Override
+                public void onClick(View v) {
+                    final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())
+                            .setContentHolder(new ViewHolder(R.layout.request_popup))
+                            .setExpanded(true,1100)
+                            .create();
+
+                    dialogPlus.show();
+
+                    View view = dialogPlus.getHolderView();
+
+                    EditText txtAmount = view.findViewById(R.id.txtAmount);
+                    EditText txtDateAndTime = view.findViewById(R.id.txtDateAndTime);
+                    EditText txtMoreInfo = view.findViewById(R.id.txtMoreInfo);
+
+                    Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
+
+
+
+                    btnSendRequest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            String[] arr = sendToDataAdapter.split(" ");  //split full name
+
+                            StringBuilder fnBuilder = new StringBuilder();   //class in the Java API that provides a mutable sequence of characters
+
+                            for (int i = 0; i < (arr.length - 1); i++) {     // we want spaces only if there is more than one first name
+                                fnBuilder.append(arr[i]);
+                                if (i < (arr.length - 2)) {
+                                    fnBuilder.append(" ");
+                                }
+                            }
+
+                            fn = fnBuilder.toString();                      //init fn
+                            ln = arr[arr.length - 1];                       //init ln
+
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+
+                        // Read the data from the database
+                            query.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    pId = dataSnapshot.getValue(Long.class);
+
+                                    if (pId != null) {
+                                        Log.d("pId", "pId: " + pId);   //pId visible here only
+
+
+                                        Map<String,Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
+                                        map.put("amount", txtAmount.getText().toString());
+                                        map.put("date_and_time", txtDateAndTime.getText().toString());
+                                        map.put("more_info", txtMoreInfo.getText().toString());
+                                        map.put("offer_countoffer", "offer_sent");
+                                        map.put("pId", pId);
+                                        map.put("rfn", "");
+                                        map.put("rln", "");
+                                        map.put("rid", 9);
+
+                                        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
+
+                                        FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        dialogPlus.dismiss(); // Close the dialog upon successful update
+                                                    }
+                                                });
+                                    } else {
+                                        Log.d("pId", "publicationId is null");
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    // Handle any errors here
+                                }
+                            });
+
+
+
+
+
+
+
+
+
+
+                        }
+                    });
+
+                }
+
+
+
+
+               /* @Override
                 public void onClick(View v) {
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -168,7 +272,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                             // Handle any errors
                         }
                     });
-                }
+                }*/
             });
 
         // Set the visibility of the button initially

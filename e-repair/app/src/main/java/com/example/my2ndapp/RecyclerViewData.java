@@ -4,13 +4,13 @@ public class RecyclerViewData {
 
 
     private String location, name, lastName, type, description;
-    private int publicationId, requests;
+    private Long publicationId, requests;
 
     RecyclerViewData(){
 
     }
 
-    public RecyclerViewData(String location, String name,String lastName, String type, String description, int publicationId, int requests) {
+    public RecyclerViewData(String location, String name,String lastName, String type, String description, Long publicationId, Long requests) {
         this.location = location;
         this.name = name;
         this.lastName= lastName;
@@ -58,15 +58,19 @@ public class RecyclerViewData {
         this.description = description;
     }
 
-    public int getPublicationId() {
+    public void setPublicationId(Long publicationId) {
+        this.publicationId = publicationId;
+    }
+
+    public Long getPublicationId() {
         return publicationId;
     }
 
-    public void setRequests(int requests) {
+    public void setRequests(Long requests) {
         this.requests = requests;
     }
 
-    public int getRequests() {
+    public Long getRequests() {
         return requests;
     }
 
