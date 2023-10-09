@@ -1,18 +1,34 @@
 package com.example.my2ndapp;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;  // Correct import for RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,AdminDataAdapter.myViewHolder> {
+
+    Long pId;
 
 
     /**
@@ -38,6 +54,146 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
 
 
+
+        //REQUESTS BUTTON
+        holder.btnRequest.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.request_popup))
+                        .setExpanded(true,1100)
+                        .create();
+
+                dialogPlus.show();
+
+                View view = dialogPlus.getHolderView();
+
+                EditText txtAmount = view.findViewById(R.id.txtAmount);
+                EditText txtDateAndTime = view.findViewById(R.id.txtDateAndTime);
+                EditText txtMoreInfo = view.findViewById(R.id.txtMoreInfo);
+
+                Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
+
+
+
+                btnSendRequest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        holder.btnRequest.setText("Sent");
+                        holder.btnRequest.setBackgroundColor(Color.RED);
+
+
+
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+
+                        // Read the data from the database
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                pId = dataSnapshot.getValue(Long.class);
+
+                                if (pId != null) {
+                                    Log.d("pId", "pId: " + pId);   //pId visible here only
+
+
+                                    Map<String,Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
+                                    map.put("amount", txtAmount.getText().toString());
+                                    map.put("date_and_time", txtDateAndTime.getText().toString());
+                                    map.put("more_info", txtMoreInfo.getText().toString());
+                                    map.put("offer_countoffer", "offer_sent");
+                                    map.put("pfn", model.getName());
+                                    map.put("pln", model.getLastName());
+                                    map.put("pId", pId);
+                                    map.put("rfn", "FN");
+                                    map.put("rln", "LN");
+                                    map.put("rid", 9);
+
+
+                                    String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
+
+                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    dialogPlus.dismiss(); // Close the dialog upon successful update
+                                                }
+                                            });
+
+                                } else {
+                                    Log.d("pId", "publicationId is null");
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Handle any errors here
+                            }
+                        });
+
+
+
+
+
+
+
+
+
+
+                    }
+                });
+
+            }
+
+
+
+
+               /* @Override
+                public void onClick(View v) {
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference query = database.getReference("jobs").child(getRef(holder.getAdapterPosition()).getKey()).child("requests");
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists() && dataSnapshot.getValue() instanceof Long) {
+                                Long requests = dataSnapshot.getValue(Long.class);
+                                if (requests != null) {
+                                    long newNumOfRequests = requests + 1;
+                                    query.setValue(newNumOfRequests);
+
+                                    // Check the value and hide the button if requests are 0
+                                    if (newNumOfRequests == 0) {
+                                        holder.btnRequests.setVisibility(View.GONE);
+                                    } else {
+                                        holder.btnRequests.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            } else {
+                                // Handle the case where the "requests" data is not valid.
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors
+                        }
+                    });
+                }*/
+        });
+
+
+
+
+
+
+
     }
 
     @NonNull
@@ -51,6 +207,8 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
         TextView textlocation, textname, texttype, textdescription, textid;
 
+        Button btnRequest;
+
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             textlocation = (TextView)itemView.findViewById(R.id.location);
@@ -58,6 +216,8 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
             texttype = (TextView)itemView.findViewById(R.id.type);
             textdescription = (TextView)itemView.findViewById(R.id.description);
             textid = (TextView)itemView.findViewById(R.id.publicationId);
+
+            btnRequest = (Button)itemView.findViewById(R.id.requestButton);
 
 
         }

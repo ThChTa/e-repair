@@ -77,16 +77,16 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonEdit"
+                android:id="@+id/requestButton"
                 android:layout_width="300dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="40dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/myBlue"
-                android:textStyle="bold"
-                android:text="Request"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button_for_my_publications_edit"
-                android:textAllCaps="false"/>
+                android:text="Request"
+                android:textAllCaps="false"
+                android:textColor="@color/myBlue"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
