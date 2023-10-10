@@ -37,6 +37,8 @@ public class Publications extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
+
     AdminDataAdapter dataAdapter;
     ImageButton imageButton;
 
@@ -90,6 +92,14 @@ public class Publications extends AppCompatActivity {
                     String getAdminType = itemSnapshot.child("type").getValue(String.class);      //get type
 
 
+                    sendToDataAdapter = (String) itemSnapshot.child("fn").getValue();//get first name to search for publications
+                    sendToDataAdapter2 = (String) itemSnapshot.child("ln").getValue();//get last name to show in RV
+
+                    sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
+                    sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
+
+
+
                     //query starts (show RV data for type=getAdminType)
 
 
@@ -99,12 +109,12 @@ public class Publications extends AppCompatActivity {
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapter = new AdminDataAdapter(options); //show to RV the full name
+                    dataAdapter = new AdminDataAdapter(options, sendToDataAdapter1); //show to RV the full name
                     recyclerView.setAdapter(dataAdapter);
 
                     //start listening to the adapter here
                     dataAdapter.startListening();
-
+                    Log.d("full_name_of_admin", sendToDataAdapter1); //print for testing with tag: full_name_of_admin
 
 
                 }

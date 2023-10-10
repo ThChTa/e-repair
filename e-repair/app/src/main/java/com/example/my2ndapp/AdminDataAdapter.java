@@ -28,7 +28,10 @@ import java.util.Map;
 
 public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,AdminDataAdapter.myViewHolder> {
 
+    private String sendToDataAdapter;  //data from Publications (full name of the admin who wants to request)
+    String fn,ln;  //split string to set them in the table 'requests'
     Long pId;
+
 
 
     /**
@@ -37,8 +40,9 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
      *
      * @param options
      */
-    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options) {
+    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter) {
         super(options);
+        this.sendToDataAdapter = sendToDataAdapter;
     }
 
     @Override
@@ -85,6 +89,22 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                         holder.btnRequest.setBackgroundColor(Color.RED);
 
 
+                        String[] arr = sendToDataAdapter.split(" ");  //split full name
+
+                        StringBuilder fnBuilder = new StringBuilder();   //class in the Java API that provides a mutable sequence of characters
+
+                        for (int i = 0; i < (arr.length - 1); i++) {     // we want spaces only if there is more than one first name
+                            fnBuilder.append(arr[i]);
+                            if (i < (arr.length - 2)) {
+                                fnBuilder.append(" ");
+                            }
+                        }
+
+                        fn = fnBuilder.toString();                      //init fn
+                        ln = arr[arr.length - 1];                       //init ln
+
+
+
 
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
@@ -108,8 +128,8 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     map.put("pfn", model.getName());
                                     map.put("pln", model.getLastName());
                                     map.put("pId", pId);
-                                    map.put("rfn", "FN");
-                                    map.put("rln", "LN");
+                                    map.put("rfn", fn);
+                                    map.put("rln", ln);
                                     map.put("rid", 9);
 
 
