@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
@@ -30,7 +31,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
     private String sendToDataAdapter;  //data from Publications (full name of the admin who wants to request)
     String fn,ln;  //split string to set them in the table 'requests'
-    Long pId;
+    Long pId, pId1;
 
 
 
@@ -80,6 +81,50 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                 Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
 
 
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference query1 = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+
+                query1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Long pId1 = dataSnapshot.getValue(Long.class);
+
+                        if (pId1 != null) {
+                            Log.d("pId1", "pId1: " + pId1);
+
+                            Query query1 = database.getReference("requests").orderByChild("pId").equalTo(pId1);
+                            query1.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                                        String editTextAmount = (String) jobSnapshot.child("amount").getValue();
+                                        String editTextDateAndTime = (String) jobSnapshot.child("date_and_time").getValue();
+                                        String editTextMoreInfo = (String) jobSnapshot.child("more_info").getValue();
+                                        txtAmount.setText(editTextAmount);
+                                        txtDateAndTime.setText(editTextDateAndTime);
+                                        txtMoreInfo.setText(editTextMoreInfo);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                }
+                            });
+                        } else {
+                            Log.d("pId", "publicationId is null");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle any errors here
+                    }
+                });
+
+
+
+
 
                 btnSendRequest.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -106,7 +151,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
 
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        //FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
 
                         // Read the data from the database
