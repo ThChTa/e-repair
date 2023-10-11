@@ -83,7 +83,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button_for_my_publications_edit"
-                android:text="Request"
+                android:text="Send Request"
                 android:textAllCaps="false"
                 android:textColor="@color/myBlue"
                 android:textStyle="bold" />

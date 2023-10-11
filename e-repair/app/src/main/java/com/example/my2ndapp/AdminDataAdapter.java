@@ -57,6 +57,8 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
         Log.d("textdescription", "textdescription : " + model.getDescription());
         Log.d("textid", "textid : " + model.getPublicationId());
 
+        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
 
@@ -81,8 +83,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                 Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
 
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference query1 = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+                DatabaseReference query1 = database.getReference("jobs").child(itemKey).child("publicationId");
 
                 query1.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -152,7 +153,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
 
                         //FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+                        DatabaseReference query = database.getReference("jobs").child(itemKey).child("publicationId");
 
                         // Read the data from the database
                         query.addValueEventListener(new ValueEventListener() {
@@ -177,8 +178,6 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     map.put("rln", ln);
                                     map.put("rid", 9);
 
-
-                                    String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
 
                                     FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
