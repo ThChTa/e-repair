@@ -1,6 +1,8 @@
 package com.example.my2ndapp;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;  // Correct import for RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -23,15 +27,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,AdminDataAdapter.myViewHolder> {
 
-    private String sendToDataAdapter;  //data from Publications (full name of the admin who wants to request)
+    private String sendToDataAdapter;
+    Context context;  //data from Publications (full name of the admin who wants to request)
     String fn,ln;  //split string to set them in the table 'requests'
     Long pId, pId1;
+
 
 
 
@@ -41,10 +49,13 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
      *
      * @param options
      */
-    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter) {
+    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter, Context context) {
         super(options);
         this.sendToDataAdapter = sendToDataAdapter;
+        this.context = context;
     }
+
+
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull RecyclerViewData model) {
@@ -60,14 +71,40 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
         String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("requests");
+
+
+        Query query = databaseReference.orderByChild("offer_countoffer").equalTo("offer_sent");    //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);    //is there any offer?
+                    if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
+                        holder.btnRequest.setText("Sent");
+                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
+                    } else {                                                                                                   //if NO
+                        holder.btnRequest.setText("Send Request");
+                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
+                    }
+                }
+
+        @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
+
+
 
 
         //REQUESTS BUTTON
-        holder.btnRequest.setOnClickListener(new View.OnClickListener() {
+        holder.btnRequest.setOnClickListener(new View.OnClickListener() {                               //when press button btnRequest
 
             @Override
             public void onClick(View v) {
-                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())
+                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())        //show request_popup
                         .setContentHolder(new ViewHolder(R.layout.request_popup))
                         .setExpanded(true,1100)
                         .create();
@@ -83,12 +120,12 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                 Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
 
 
-                DatabaseReference query1 = database.getReference("jobs").child(itemKey).child("publicationId");
+                DatabaseReference query0 = database.getReference("jobs").child(itemKey).child("publicationId");    //find publicationIds and set text to the EditTexts considering the itemkey
 
-                query1.addValueEventListener(new ValueEventListener() {
+                query0.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long pId1 = dataSnapshot.getValue(Long.class);
+                         pId1 = dataSnapshot.getValue(Long.class);
 
                         if (pId1 != null) {
                             Log.d("pId1", "pId1: " + pId1);
@@ -127,13 +164,9 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
 
 
-                btnSendRequest.setOnClickListener(new View.OnClickListener() {
+                btnSendRequest.setOnClickListener(new View.OnClickListener() {                  //when press Button btnSendRequest
                     @Override
                     public void onClick(View v) {
-
-                        holder.btnRequest.setText("Sent");
-                        holder.btnRequest.setBackgroundColor(Color.RED);
-
 
                         String[] arr = sendToDataAdapter.split(" ");  //split full name
 
@@ -151,19 +184,18 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
 
 
-
-                        //FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference query = database.getReference("jobs").child(itemKey).child("publicationId");
+                        DatabaseReference query2 = database.getReference("jobs").child(itemKey).child("publicationId");  //set data to firebase onClick, to requests "table"
 
                         // Read the data from the database
-                        query.addValueEventListener(new ValueEventListener() {
+                        query2.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 pId = dataSnapshot.getValue(Long.class);
 
-                                if (pId != null) {
+                                if (pId != null  && !TextUtils.isEmpty(txtAmount.getText().toString()) &&!TextUtils.isEmpty(txtDateAndTime.getText().toString())) {
                                     Log.d("pId", "pId: " + pId);   //pId visible here only
+
 
 
                                     Map<String,Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
@@ -184,11 +216,39 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     dialogPlus.dismiss(); // Close the dialog upon successful update
+
+
+                                                    query.addListenerForSingleValueEvent(new ValueEventListener() {   //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT (AFTER SEND REQUEST)
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                            String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);
+                                                            if ("offer_sent".equals(offerStatus)) {
+                                                                holder.btnRequest.setText("Sent");
+                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
+                                                            } else {
+                                                                holder.btnRequest.setText("Send Request");
+                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+                                                            // Handle errors
+                                                        }
+                                                    });
                                                 }
                                             });
 
-                                } else {
-                                    Log.d("pId", "publicationId is null");
+                                }else if (TextUtils.isEmpty(txtAmount.getText().toString())) {
+                                    Toast.makeText(context, "Enter Amount", Toast.LENGTH_SHORT).show();
+
+                                }else if (TextUtils.isEmpty(txtDateAndTime.getText().toString())) {
+                                Toast.makeText(context, "Enter Date and Time", Toast.LENGTH_SHORT).show();
+                            }
+                                else {
+                                    Log.d("pId", "publicationId is null, or one or more of the edittexts are empty");
+
                                 }
 
 
@@ -201,21 +261,10 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                         });
 
 
-
-
-
-
-
-
-
-
                     }
                 });
 
             }
-
-
-
 
                /* @Override
                 public void onClick(View v) {

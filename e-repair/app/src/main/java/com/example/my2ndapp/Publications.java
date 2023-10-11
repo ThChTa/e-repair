@@ -109,7 +109,7 @@ public class Publications extends AppCompatActivity {
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapter = new AdminDataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                    dataAdapter = new AdminDataAdapter(options, sendToDataAdapter1, Publications.this); //show to RV the full name,  Publications.this is to show Toast MESSAGE to AdminDataAdapter
                     recyclerView.setAdapter(dataAdapter);
 
                     //start listening to the adapter here
