@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
@@ -178,10 +179,10 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference query = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
+                    DatabaseReference query1 = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
 
                         // Read the data from the database
-                            query.addValueEventListener(new ValueEventListener() {
+                            query1.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -237,43 +238,34 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
                 }
 
-
-
-
-               /* @Override
-                public void onClick(View v) {
-
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference query = database.getReference("jobs").child(getRef(holder.getAdapterPosition()).getKey()).child("requests");
-
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists() && dataSnapshot.getValue() instanceof Long) {
-                                Long requests = dataSnapshot.getValue(Long.class);
-                                if (requests != null) {
-                                    long newNumOfRequests = requests + 1;
-                                    query.setValue(newNumOfRequests);
-
-                                    // Check the value and hide the button if requests are 0
-                                    if (newNumOfRequests == 0) {
-                                        holder.btnRequests.setVisibility(View.GONE);
-                                    } else {
-                                        holder.btnRequests.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            } else {
-                                // Handle the case where the "requests" data is not valid.
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Handle any errors
-                        }
-                    });
-                }*/
             });
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("requests");
+        Query query = databaseReference.orderByChild("offer_countoffer").equalTo("offer_sent");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String offerStatus = dataSnapshot.child(getRef(holder.getAdapterPosition()).getKey()).child("offer_countoffer").getValue(String.class);
+
+
+                        // Check the value and hide the button if requests are 0
+                    if ("offer_sent".equals(offerStatus)) {
+                            holder.btnRequests.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.btnRequests.setVisibility(View.GONE);
+                    }
+                } else {
+                    // Handle the case where the "requests" data is not valid.
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle any errors
+            }
+        });
 
         // Set the visibility of the button initially
         if (model.getRequests() == 0) {
