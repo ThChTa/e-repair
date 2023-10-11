@@ -74,7 +74,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("requests");
 
 
-        Query query = databaseReference.orderByChild("offer_countoffer").equalTo("offer_sent");    //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT
+        Query query = databaseReference.orderByChild("offer_countoffer");    //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -82,10 +82,13 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
                     String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);    //is there any offer?
                     if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
-                        holder.btnRequest.setText("Sent");
+                        holder.btnRequest.setText("Offer Sent");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                    } else {                                                                                                   //if NO
-                        holder.btnRequest.setText("Send Request");
+                    } else if("countoffer_sent".equals(offerStatus)) {
+                        holder.btnRequest.setText("See the Countoffer");
+                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_countoffers);
+                    }else{
+                        holder.btnRequest.setText("Request an offer");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
                     }
                 }
@@ -223,11 +226,14 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                             String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);
-                                                            if ("offer_sent".equals(offerStatus)) {
-                                                                holder.btnRequest.setText("Sent");
+                                                            if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
+                                                                holder.btnRequest.setText("Offer Sent");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                                                            } else {
-                                                                holder.btnRequest.setText("Send Request");
+                                                            } else if("countoffer_sent".equals(offerStatus)) {
+                                                                holder.btnRequest.setText("See the Countoffer");
+                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_countoffers);
+                                                            }else{
+                                                                holder.btnRequest.setText("Request an offer");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
                                                             }
                                                         }

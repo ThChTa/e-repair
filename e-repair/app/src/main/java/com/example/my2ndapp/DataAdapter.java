@@ -31,7 +31,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
     private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
     String fn,ln;  //split string to set them in the table 'requests'
-    Long pId;
+    Long pId,pId1;
 
 
 
@@ -58,6 +58,9 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
         Log.d("textdescription", "textdescription : " + model.getDescription());
         Log.d("textid", "textid : " + model.getPublicationId());
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
 
 
         //EDIT BUTTON
@@ -158,6 +161,47 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                     Button btnSendRequest = view.findViewById(R.id.btnSendRequest);
 
 
+                    DatabaseReference query0 = database.getReference("jobs").child(itemKey).child("publicationId");    //find publicationIds and set text to the EditTexts considering the itemkey
+
+                    query0.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            pId1 = dataSnapshot.getValue(Long.class);
+
+                            if (pId1 != null) {
+                                Log.d("pId1", "pId1: " + pId1);
+
+                                Query query0 = database.getReference("requests").orderByChild("pId").equalTo(pId1);
+                                query0.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                                            String editTextAmount = (String) jobSnapshot.child("amount").getValue();
+                                            String editTextDateAndTime = (String) jobSnapshot.child("date_and_time").getValue();
+                                            String editTextMoreInfo = (String) jobSnapshot.child("more_info").getValue();
+                                            txtAmount.setText(editTextAmount);
+                                            txtDateAndTime.setText(editTextDateAndTime);
+                                            txtMoreInfo.setText(editTextMoreInfo);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                    }
+                                });
+                            } else {
+                                Log.d("pId", "publicationId is null");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors here
+                        }
+                    });
+
+
 
                     btnSendRequest.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -178,7 +222,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                             ln = arr[arr.length - 1];                       //init ln
 
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
                     DatabaseReference query1 = database.getReference("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).child("publicationId");
 
                         // Read the data from the database
@@ -196,13 +240,9 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                                         map.put("amount", txtAmount.getText().toString());
                                         map.put("date_and_time", txtDateAndTime.getText().toString());
                                         map.put("more_info", txtMoreInfo.getText().toString());
-                                        map.put("offer_countoffer", "offer_sent");
+                                        map.put("offer_countoffer", "countoffer_sent");
                                         map.put("pId", pId);
-                                        map.put("rfn", "");
-                                        map.put("rln", "");
-                                        map.put("rid", 9);
 
-                                        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
 
                                         FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
