@@ -2,6 +2,7 @@ package com.example.my2ndapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,9 +140,29 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             }
         });
 
+        holder.btnRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the new activity
+                Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
+
+                // You can also pass data to the new activity if needed
+                intent.putExtra("key", itemKey);
+
+                // Start the new activity
+                holder.textname.getContext().startActivity(intent);
+            }
+        });
+
+
+
+        /*
 
             //REQUESTS BUTTON
             holder.btnRequests.setOnClickListener(new View.OnClickListener() {
+
+
+
 
                 @Override
                 public void onClick(View v) {
@@ -278,7 +299,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
                 }
 
-            });
+            });*/
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("requests");
         Query query = databaseReference.orderByChild("offer_countoffer").equalTo("offer_sent");

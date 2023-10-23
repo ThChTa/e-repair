@@ -153,7 +153,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                 }
                             });
                         } else {
-                            Log.d("pId", "publicationId is null");
+                            Log.d("pId1", "publicationId is null");
                         }
                     }
 
@@ -197,11 +197,11 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                 pId = dataSnapshot.getValue(Long.class);
 
                                 if (pId != null  && !TextUtils.isEmpty(txtAmount.getText().toString()) &&!TextUtils.isEmpty(txtDateAndTime.getText().toString())) {
-                                    Log.d("pId", "pId: " + pId);   //pId visible here only
+                                  //  Log.d("pId", "pId: " + pId);   //pId visible here only
 
 
 
-                                    Map<String,Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
+                                    Map<String, Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
                                     map.put("amount", txtAmount.getText().toString());
                                     map.put("date_and_time", txtDateAndTime.getText().toString());
                                     map.put("more_info", txtMoreInfo.getText().toString());
@@ -216,9 +216,55 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
 
                                     FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
+
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
+                                                    Log.d("neo", "neo: " + pId);   //pId visible here only
+
+
+
+                                                    DatabaseReference jobsRef = database.getReference("jobs"); // Reference to the "jobs" node
+                                                    Query query3 = jobsRef.orderByChild("publicationId").equalTo(pId); // Query for a specific "publicationId" value
+
+                                                    query3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+
+
+                                                            for (DataSnapshot snapshot1 : dataSnapshot1.getChildren()) {
+                                                                Long z = snapshot1.child("requests").getValue(Long.class);
+
+                                                                if (z != null) {
+
+                                                                    snapshot1.getRef().child("requests").setValue(z+1);
+                                                                } else {
+                                                                    snapshot1.getRef().child("requests").setValue(1); // Set a default value if 'requests' is null
+                                                                }
+
+
+
+
+                                                                Log.d("oeoe", "z: " + (z + 1));   // Access z here
+
+
+                                                            }
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                                        }
+                                                    });
+
+// You cannot access z here directly; it's only available within onDataChange
+
+
+
                                                     dialogPlus.dismiss(); // Close the dialog upon successful update
+
+
+
 
 
                                                     query.addListenerForSingleValueEvent(new ValueEventListener() {   //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT (AFTER SEND REQUEST)
@@ -229,10 +275,10 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                             if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
                                                                 holder.btnRequest.setText("Offer Sent");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                                                            } else if("countoffer_sent".equals(offerStatus)) {
+                                                            } else if ("countoffer_sent".equals(offerStatus)) {
                                                                 holder.btnRequest.setText("See the Countoffer");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_countoffers);
-                                                            }else{
+                                                            } else {
                                                                 holder.btnRequest.setText("Request an offer");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
                                                             }
@@ -246,6 +292,13 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                 }
                                             });
 
+
+
+
+
+
+
+
                                 }else if (TextUtils.isEmpty(txtAmount.getText().toString())) {
                                     Toast.makeText(context, "Enter Amount", Toast.LENGTH_SHORT).show();
 
@@ -253,7 +306,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                 Toast.makeText(context, "Enter Date and Time", Toast.LENGTH_SHORT).show();
                             }
                                 else {
-                                    Log.d("pId", "publicationId is null, or one or more of the edittexts are empty");
+                                    Log.d("pId3", "publicationId is null, or one or more of the edittexts are empty");
 
                                 }
 
