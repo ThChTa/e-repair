@@ -23,8 +23,7 @@ public class Requests_Page extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String emailFromMyPublications = intent.getExtras().getString("emailFromMyPublications");
-
+        String emailFromMyPublications = intent.getExtras().getString("emailFromMyPublications");  //get email from MyPublications
 
 
         backButton.setOnClickListener(new View.OnClickListener() {   //when back btn is clicked
@@ -32,12 +31,9 @@ public class Requests_Page extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Requests_Page.this, MyPublications.class);
                 i.putExtra("emailFromRequestsPage", emailFromMyPublications);   //emailFromRequestsPage = emailFromMyPublications, so i have one variable
-
                 startActivity(i);
             }
         });
-
-
 
     }
 }

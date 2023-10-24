@@ -31,6 +31,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
 
     private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
+    private String emailFromMyPublications; //Get email from MyPublications
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -38,9 +39,10 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
      *
      * @param options
      */
-    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter) {
+    public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter, String emailFromMyPublications) {
         super(options);
         this.sendToDataAdapter = sendToDataAdapter;
+        this.emailFromMyPublications = emailFromMyPublications;  //access the email of the user to use it in putExtras and getExtras (for example for switch between MyPublications and Request_Page
     }
 
 
@@ -53,8 +55,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.textdescription.setText(model.getDescription());
         holder.textid.setText(String.valueOf(model.getPublicationId()));
 
-        Log.d("textdescription", "textdescription : " + model.getDescription());
-        Log.d("textid", "textid : " + model.getPublicationId());
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
@@ -122,8 +123,6 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(holder.getBindingAdapterPosition()).getKey()).removeValue();
-                        // instead of FirebaseDatabase.getInstance().getReference().child("jobs").child(getRef(position).getKey()).removeValue();
-
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -141,7 +140,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             public void onClick(View v) {
                 // Create an Intent to start the new activity
                 Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
-                intent.putExtra("emailFromMyPublications", "pl@mail.com");
+                intent.putExtra("emailFromMyPublications", emailFromMyPublications);
 
                 // Start the new activity
                 holder.textname.getContext().startActivity(intent);

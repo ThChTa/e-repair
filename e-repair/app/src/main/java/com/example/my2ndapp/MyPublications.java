@@ -60,20 +60,17 @@ public class MyPublications extends AppCompatActivity {
         String emailFromAddActivity = intent.getExtras().getString("emailFromAddActivityToMyPublications");  //email when navigate from AddActivity
         String emailFromRequestsPage = intent.getExtras().getString("emailFromRequestsPage");  //emailFromRequestsPage when navigate from RequestsPage
 
-        Log.d("emailFromRequestsPage","emailFromRequestsPage = " + emailFromRequestsPage);
-
-
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {   //when back btn is clicked
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MyPublications.this, User.class);
-                if(emailFromUser != null){
+                if(emailFromUser != null){                                              //if i come from User.class
                     i.putExtra("emailFromMyPublications", emailFromUser);
-                }else if(emailFromAddActivity != null){
+                }else if(emailFromAddActivity != null){                                 //if i come from AddActivity.class
                     i.putExtra("emailFromMyPublications", emailFromAddActivity);
-                }else {
+                }else {                                                                 //if i come from Request_Page.class
                     i.putExtra("emailFromMyPublications", emailFromRequestsPage);
                 }
 
@@ -89,11 +86,13 @@ public class MyPublications extends AppCompatActivity {
                 i.putExtra("firstNameFromMyPublications", sendToDataAdapter);
                 i.putExtra("lastNameFromMyPublications", sendToDataAdapter2);
 
-                if(emailFromUser != null){
+                if(emailFromUser != null){                                              //if i come from User.class
                     i.putExtra("emailFromMyPublications", emailFromUser);
-                }else{
+                }else if(emailFromAddActivity != null){                                 //if i come from AddActivity.class
                     i.putExtra("emailFromMyPublications", emailFromAddActivity);
-                }// from MyPublications to AddActivity
+                }else {                                                                 //if i come from Request_Page.class
+                    i.putExtra("emailFromMyPublications", emailFromRequestsPage);
+                }
 
                 startActivity(i);
 
@@ -125,7 +124,7 @@ public class MyPublications extends AppCompatActivity {
                                 .build();
 
                         //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1, emailFromUser); //show to RV the full name. AND GET THE EMAIL TO SWITCH BETWEEN MyPublications AND Requests_Page
                         recyclerView.setAdapter(dataAdapter);
 
                         //start listening to the adapter here
@@ -143,7 +142,7 @@ public class MyPublications extends AppCompatActivity {
 
         }   //if statement ends
 
-        else if(emailFromRequestsPage == null && emailFromAddActivity != null){             //when navigate from AddActivity.class
+        else if(emailFromAddActivity != null){             //when navigate from AddActivity.class
             query.orderByChild("email").equalTo(emailFromAddActivity).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,7 +160,7 @@ public class MyPublications extends AppCompatActivity {
                                 .build();
 
                         //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1,emailFromAddActivity); //show to RV the full name. AND GET THE EMAIL TO SWITCH BETWEEN MyPublications AND Requests_Page
                         recyclerView.setAdapter(dataAdapter);
 
                         //start listening to the adapter here
@@ -176,7 +175,7 @@ public class MyPublications extends AppCompatActivity {
             });  //query ends
 
         }       //else ends
-        else {
+        else if(emailFromRequestsPage!=null){
             query.orderByChild("email").equalTo(emailFromRequestsPage).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,7 +193,7 @@ public class MyPublications extends AppCompatActivity {
                                 .build();
 
                         //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1,emailFromRequestsPage); //show to RV the full name. AND GET THE EMAIL TO SWITCH BETWEEN MyPublications AND Requests_Page
                         recyclerView.setAdapter(dataAdapter);
 
                         //start listening to the adapter here
