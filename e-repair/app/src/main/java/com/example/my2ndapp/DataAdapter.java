@@ -31,10 +31,6 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
 
     private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
-    String fn,ln;  //split string to set them in the table 'requests'
-    Long pId,pId1;
-
-
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -145,9 +141,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             public void onClick(View v) {
                 // Create an Intent to start the new activity
                 Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
-
-                // You can also pass data to the new activity if needed
-                intent.putExtra("key", itemKey);
+                intent.putExtra("emailFromMyPublications", "pl@mail.com");
 
                 // Start the new activity
                 holder.textname.getContext().startActivity(intent);

@@ -1,119 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/myBlue"
+    tools:context=".Requests_Page">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/imageButtonAddActivity"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="back"
-            android:scaleType="fitXY"
-            android:src="@drawable/back"
-            android:translationZ="2dp"
-            tools:ignore="TouchTargetSizeCheck" />
+    <ImageButton
+        android:id="@+id/imageButtonRequestsPageActivity"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="back"
+        android:scaleType="fitXY"
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
+        app:srcCompat="@drawable/back"
+        tools:ignore="TouchTargetSizeCheck" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:background="@color/myBlue"
-            android:gravity="center"
-            android:text="Requests"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5sp"
-        android:text="Type"
-        android:textColor="@color/black"/>
-
-    <TextView
-        android:id="@+id/Type"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:textColor="@color/myGray"
-        android:text="testType"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5sp"
-        android:text="Location"
-        android:textColor="@color/black"/>
-
-    <EditText
-        android:id="@+id/Location"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:textColor="@color/myGray"
-        android:text="testLocation"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5sp"
-        android:text="Description"
-        android:textColor="@color/black"/>
-
-    <EditText
-        android:id="@+id/Description"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:maxHeight="150dp"
-        android:textColor="@color/myGray"
-        android:text="testDescription"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="30dp"
-        android:text="Save"
-        android:textSize="21sp"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_button_for_start_screen"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:id="@+id/btnSave"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 
-</LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

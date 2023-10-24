@@ -56,10 +56,11 @@ public class MyPublications extends AppCompatActivity {
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);  //plus btn
 
         Intent intent = getIntent();
-        String emailFromUser = intent.getExtras().getString("emailFromUser");
-        String emailFromAddActivity = intent.getExtras().getString("emailFromAddActivityToMyPublications");
+        String emailFromUser = intent.getExtras().getString("emailFromUser");  //email when navigate from User
+        String emailFromAddActivity = intent.getExtras().getString("emailFromAddActivityToMyPublications");  //email when navigate from AddActivity
+        String emailFromRequestsPage = intent.getExtras().getString("emailFromRequestsPage");  //emailFromRequestsPage when navigate from RequestsPage
 
-        Log.d("sos1","emailFromUser = " + emailFromUser + ", emailFromAddActivity = " + emailFromAddActivity);
+        Log.d("emailFromRequestsPage","emailFromRequestsPage = " + emailFromRequestsPage);
 
 
 
@@ -70,8 +71,10 @@ public class MyPublications extends AppCompatActivity {
                 Intent i = new Intent(MyPublications.this, User.class);
                 if(emailFromUser != null){
                     i.putExtra("emailFromMyPublications", emailFromUser);
-                }else{
+                }else if(emailFromAddActivity != null){
                     i.putExtra("emailFromMyPublications", emailFromAddActivity);
+                }else {
+                    i.putExtra("emailFromMyPublications", emailFromRequestsPage);
                 }
 
                 startActivity(i);
@@ -140,7 +143,7 @@ public class MyPublications extends AppCompatActivity {
 
         }   //if statement ends
 
-        else {             //when navigate from AddActivity.class
+        else if(emailFromRequestsPage == null && emailFromAddActivity != null){             //when navigate from AddActivity.class
             query.orderByChild("email").equalTo(emailFromAddActivity).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -173,6 +176,38 @@ public class MyPublications extends AppCompatActivity {
             });  //query ends
 
         }       //else ends
+        else {
+            query.orderByChild("email").equalTo(emailFromRequestsPage).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                        sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
+                        sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
+
+                        sendToDataAdapter1 = sendToDataAdapter.concat(" ");  //concat for RV
+                        sendToDataAdapter1 = sendToDataAdapter1.concat(sendToDataAdapter2); //concat for RV
+                        Log.d("full_name", sendToDataAdapter2); //print for testing with tag: full_name
+
+                        //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
+                        FirebaseRecyclerOptions<RecyclerViewData> options = new FirebaseRecyclerOptions.Builder<RecyclerViewData>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo(sendToDataAdapter), RecyclerViewData.class)
+                                .build();
+
+                        //Initialize the DataAdapter with the correct options and sendToDataAdapter
+                        dataAdapter = new DataAdapter(options, sendToDataAdapter1); //show to RV the full name
+                        recyclerView.setAdapter(dataAdapter);
+
+                        //start listening to the adapter here
+                        dataAdapter.startListening();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage()); //print if error exists
+                }
+            });  //query ends
+        }  //else end
 
 
     }
