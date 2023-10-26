@@ -111,6 +111,7 @@ public class MyPublications extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+
                         sendToDataAdapter = (String) jobSnapshot.child("fn").getValue();//get first name to search for publications
                         sendToDataAdapter2 = (String) jobSnapshot.child("ln").getValue();//get last name to show in RV
 

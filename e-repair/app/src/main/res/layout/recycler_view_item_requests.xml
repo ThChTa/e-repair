@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:elevation="6dp"
+    app:cardUseCompatPadding="true">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/requestName"
+            android:background="@drawable/underline_textview"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Request from:"
+            android:textAlignment="center">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/upType"
+            android:textSize="25sp"
+            android:textColor="@color/myGray"
+            android:text="Type"
+            android:drawableStart="@drawable/baseline_handyman_24"
+            android:layout_below="@+id/requestName">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/downType"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Type"
+            android:layout_below="@+id/upType">
+        </TextView>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:background="@color/myGrayRV"
+            android:layout_below="@id/downType"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/upLocation"
+            android:textSize="25sp"
+            android:textColor="@color/myGray"
+            android:text="Location"
+            android:drawableStart="@drawable/baseline_location_on_24"
+            android:layout_below="@+id/downType">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/downLocation"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Location"
+            android:layout_below="@+id/upLocation">
+        </TextView>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:background="@color/myGrayRV"
+            android:layout_below="@id/downLocation"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/upDescription"
+            android:textSize="25sp"
+            android:textColor="@color/myGray"
+            android:text="Description"
+            android:drawableStart="@drawable/baseline_description_24"
+            android:layout_below="@+id/downLocation">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/downDescription"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="Description"
+            android:layout_below="@+id/upDescription">
+        </TextView>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:background="@color/myGrayRV"
+            android:layout_below="@id/downDescription"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/publicationIdRequests"
+            android:textSize="15sp"
+            android:textColor="@color/myGray"
+            android:text="id"
+            android:drawableStart="@drawable/baseline_numbers_24"
+            android:layout_below="@+id/downDescription">
+        </TextView>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:id="@+id/lastLine"
+            android:background="@color/myGrayRV"
+            android:layout_below="@id/publicationIdRequests"/>
+
+        <LinearLayout
+            android:layout_below="@id/lastLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonAccept"
+                    android:layout_width="173dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="Accept"
+                    android:background="@drawable/custom_button_for_my_publications_accept"
+                    android:textAllCaps="false"/>
+                <Button
+                    android:id="@+id/buttonDecline"
+                    android:layout_width="173dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="Decline"
+                    android:background="@drawable/custom_button_for_my_publications_delete"
+                    android:textAllCaps="false"/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonCounteroffer"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Counteroffer"
+                android:background="@drawable/custom_button_for_publications_countoffers"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

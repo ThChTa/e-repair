@@ -22,23 +22,23 @@
 
     <EditText
         android:id="@+id/emailGap"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="50dp"
         android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_input_signin"
         android:drawableStart="@drawable/baseline_email_24"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
-        android:background="@drawable/custom_input_signin"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/enterPasswordGap"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/enterPasswordGap"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="50dp"
         android:layout_marginBottom="72dp"
         android:drawableStart="@drawable/baseline_lock_24"
@@ -54,7 +54,7 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="393dp"
+        android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/custom_button_for_start_screen"
@@ -67,7 +67,7 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="393dp"
+        android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_marginBottom="52dp"
         android:background="@drawable/custom_button_for_start_screen"

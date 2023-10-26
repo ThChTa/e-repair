@@ -56,11 +56,6 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.textid.setText(String.valueOf(model.getPublicationId()));
 
 
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
-
-
         //EDIT BUTTON
 
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +63,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             public void onClick(View v) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())
                         .setContentHolder(new ViewHolder(R.layout.update_popup))
-                        .setExpanded(true,1100)
+                        .setExpanded(true,1200)
                         .create();
 
                 //dialogPlus.show();
@@ -140,7 +135,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
             public void onClick(View v) {
                 // Create an Intent to start the new activity
                 Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
-                intent.putExtra("emailFromMyPublications", emailFromMyPublications);
+                intent.putExtra("emailFromMyPublications", emailFromMyPublications);   //send email to the Request_Page
 
                 // Start the new activity
                 holder.textname.getContext().startActivity(intent);

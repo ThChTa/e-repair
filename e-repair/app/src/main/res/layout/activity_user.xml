@@ -73,7 +73,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="Sentence"
         android:textSize="22sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/textView"

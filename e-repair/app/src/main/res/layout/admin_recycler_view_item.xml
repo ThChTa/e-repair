@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -82,11 +83,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/custom_button_for_my_publications_edit"
-                android:text="Send Request"
+                android:background="@drawable/custom_button_for_publications_request"
                 android:textAllCaps="false"
                 android:textColor="@color/myBlue"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="SpeakableTextPresentCheck" />
 
 
         </LinearLayout>

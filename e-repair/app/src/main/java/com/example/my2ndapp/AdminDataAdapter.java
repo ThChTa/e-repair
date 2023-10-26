@@ -36,6 +36,7 @@ import java.util.Map;
 public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,AdminDataAdapter.myViewHolder> {
 
     private String sendToDataAdapter;
+    private String emailFromPublications; //Get email from Publications
     Context context;  //data from Publications (full name of the admin who wants to request)
     String fn,ln;  //split string to set them in the table 'requests'
     Long pId, pId1;
@@ -49,9 +50,10 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
      *
      * @param options
      */
-    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter, Context context) {
+    public AdminDataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter, String emailFromPublications, Context context) {
         super(options);
         this.sendToDataAdapter = sendToDataAdapter;
+        this.emailFromPublications = emailFromPublications;
         this.context = context;
     }
 
@@ -81,7 +83,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                     String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);    //is there any offer?
-                    if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
+                    if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                         holder.btnRequest.setText("Offer Sent");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
                     } else if("countoffer_sent".equals(offerStatus)) {
@@ -205,7 +207,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     map.put("amount", txtAmount.getText().toString());
                                     map.put("date_and_time", txtDateAndTime.getText().toString());
                                     map.put("more_info", txtMoreInfo.getText().toString());
-                                    map.put("offer_countoffer", "offer_sent");
+                                    map.put("offer_countoffer", emailFromPublications+"_"+"offer_sent");
                                     map.put("pfn", model.getName());
                                     map.put("pln", model.getLastName());
                                     map.put("pId", pId);
@@ -272,7 +274,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                             String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);
-                                                            if ("offer_sent".equals(offerStatus)) {                                                                    //if YES
+                                                            if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                                                                 holder.btnRequest.setText("Offer Sent");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
                                                             } else if ("countoffer_sent".equals(offerStatus)) {

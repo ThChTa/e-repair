@@ -37,7 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".SignIn"
-            android:exported="false"
+            android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
