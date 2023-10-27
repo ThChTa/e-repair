@@ -26,7 +26,6 @@ public class Requests_Page extends AppCompatActivity {
 
     String sendToDataAdapter1,sendToDataAdapter2,sendToDataAdapter; //pass data from this class to DataAdapter.class
     ImageButton backButton;
-    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,9 @@ public class Requests_Page extends AppCompatActivity {
 
         Intent intent = getIntent();
         String emailFromMyPublications = intent.getExtras().getString("emailFromMyPublications");  //get email from MyPublications
+        Long pIdFromMyPublications = intent.getExtras().getLong("pIdFromMyPublications");  //get pId from MyPublications
+
+        Log.d("pIdFromMyPublications", "Value = " + pIdFromMyPublications); //print for testing with tag: pIdFromMyPublications
 
 
         backButton.setOnClickListener(new View.OnClickListener() {   //when back btn is clicked
@@ -52,6 +54,7 @@ public class Requests_Page extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
 
 
 
@@ -80,9 +83,9 @@ public class Requests_Page extends AppCompatActivity {
                     //query starts (show RV data for type=getAdminType)
 
 
-                    //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions
+                    //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions for publicationId = with the pId i click on
                     FirebaseRecyclerOptions<RecyclerViewDataRequests> options = new FirebaseRecyclerOptions.Builder<RecyclerViewDataRequests>()
-                            .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("name").equalTo("Thomas"), RecyclerViewDataRequests.class)
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("publicationId").equalTo(pIdFromMyPublications), RecyclerViewDataRequests.class)
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter

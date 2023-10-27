@@ -52,7 +52,6 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
         holder.textdescription.setText(model.getDescription());
         holder.textid.setText(String.valueOf(model.getPublicationId()));
 
-
     }
 
 
@@ -61,6 +60,8 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item_requests,parent,false);
         return new myViewHolder(view);
+
+
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{

@@ -32,6 +32,7 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
 
     private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
     private String emailFromMyPublications; //Get email from MyPublications
+    private Long pIdFromMyPublications;  // Get pId from MyPublications and send it to Requests_Page
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -39,12 +40,13 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
      *
      * @param options
      */
+
+
     public DataAdapter(@NonNull FirebaseRecyclerOptions<RecyclerViewData> options, String sendToDataAdapter, String emailFromMyPublications) {
         super(options);
         this.sendToDataAdapter = sendToDataAdapter;
         this.emailFromMyPublications = emailFromMyPublications;  //access the email of the user to use it in putExtras and getExtras (for example for switch between MyPublications and Request_Page
     }
-
 
 
     @Override
@@ -133,12 +135,35 @@ public class DataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,DataA
         holder.btnRequests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to start the new activity
-                Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
-                intent.putExtra("emailFromMyPublications", emailFromMyPublications);   //send email to the Request_Page
 
-                // Start the new activity
-                holder.textname.getContext().startActivity(intent);
+                String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Use holder.getBindingAdapterPosition() instead of position
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("jobs");
+
+
+                Query query = databaseReference.orderByChild("publicationId");    //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        pIdFromMyPublications = dataSnapshot.child(itemKey).child("publicationId").getValue(Long.class);
+                        Intent intent = new Intent(holder.textname.getContext(), Requests_Page.class);
+                        intent.putExtra("pIdFromMyPublications", pIdFromMyPublications);         //send pId to the Request_Page
+                        intent.putExtra("emailFromMyPublications", emailFromMyPublications);   //send email to the Request_Page
+                        // Start the new activity
+                        holder.textname.getContext().startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle errors
+                    }
+                });
+
+
             }
         });
 
