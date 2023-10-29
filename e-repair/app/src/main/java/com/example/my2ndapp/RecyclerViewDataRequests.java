@@ -2,85 +2,72 @@ package com.example.my2ndapp;
 
 public class RecyclerViewDataRequests {
 
+    String amount, date_and_time, more_info, rfn, rln;
 
-    private String location, name, lastName, type, description;
-    private Long publicationId, requests;
+
+
+    Long pId;
+
+
+    public RecyclerViewDataRequests(String amount, String date_and_time, String more_info, Long pId, String rfn, String rln) {
+        this.amount = amount;
+        this.date_and_time = date_and_time;
+        this.more_info = more_info;
+        this.pId = pId;
+        this.rfn = rfn;
+        this.rln = rln;
+    }
 
     RecyclerViewDataRequests(){
 
     }
 
-    public RecyclerViewDataRequests(String location, String name,String lastName, String type, String description, Long publicationId, Long requests) {
-        this.location = location;
-        this.name = name;
-        this.lastName= lastName;
-        this.type = type;
-        this.description = description;
-        this.publicationId = publicationId;
-        this.requests = requests;
+    public String getAmount() {
+        return amount;
     }
 
-    public String getLocation() {
-        return location;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public String getDate_and_time() {
+        return date_and_time;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setDate_and_time(String date_and_time) {
+        this.date_and_time = date_and_time;
     }
 
-    public void setLastName(String lastName) {this.lastName = lastName; }
-
-    public String getName() {
-        return name;
+    public String getMore_info() {
+        return more_info;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMore_info(String more_info) {
+        this.more_info = more_info;
     }
 
-    public String getType() {
-        return type;
+    public Long getpId() {
+        return pId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setpId(Long pId) {
+        this.pId = pId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getRfn() {
+        return rfn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRfn(String rfn) {
+        this.rfn = rfn;
     }
 
-    public void setPublicationId(Long publicationId) {
-        this.publicationId = publicationId;
+    public String getRln() {
+        return rln;
     }
 
-    public Long getPublicationId() {
-        return publicationId;
+    public void setRln(String rln) {
+        this.rln = rln;
     }
-
-    public void setRequests(Long requests) {
-        this.requests = requests;
-    }
-
-    public Long getRequests() {
-        return requests;
-    }
-
-
-
-
-
-
-
-
-
 
 }

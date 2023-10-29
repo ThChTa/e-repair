@@ -88,7 +88,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
                     } else if("countoffer_sent".equals(offerStatus)) {
                         holder.btnRequest.setText("See the Countoffer");
-                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_countoffers);
+                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
                     }else{
                         holder.btnRequest.setText("Request an offer");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
@@ -279,7 +279,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
                                                             } else if ("countoffer_sent".equals(offerStatus)) {
                                                                 holder.btnRequest.setText("See the Countoffer");
-                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_countoffers);
+                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
                                                             } else {
                                                                 holder.btnRequest.setText("Request an offer");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);

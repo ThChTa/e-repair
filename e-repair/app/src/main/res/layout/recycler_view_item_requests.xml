@@ -29,83 +29,96 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/upType"
+            android:id="@+id/upDateAndTime"
             android:textSize="25sp"
             android:textColor="@color/myGray"
-            android:text="Type"
-            android:drawableStart="@drawable/baseline_handyman_24"
-            android:layout_below="@+id/requestName">
+            android:text="Date &amp; Time"
+            android:drawableStart="@drawable/baseline_calendar_month_24"
+            android:layout_below="@+id/requestName"
+            android:layout_marginTop="5dp">
         </TextView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/downType"
+            android:id="@+id/downDateAndTime"
             android:textSize="25sp"
             android:textColor="@color/black"
-            android:text="Type"
-            android:layout_below="@+id/upType">
+            android:text="Date &amp; Time"
+            android:gravity="center"
+            android:layout_below="@+id/upDateAndTime">
         </TextView>
+
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
+            android:id="@+id/downDownDateAndTime"
             android:background="@color/myGrayRV"
-            android:layout_below="@id/downType"/>
+            android:layout_below="@id/downDateAndTime"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/upLocation"
+            android:id="@+id/upAmount"
             android:textSize="25sp"
             android:textColor="@color/myGray"
-            android:text="Location"
-            android:drawableStart="@drawable/baseline_location_on_24"
-            android:layout_below="@+id/downType">
+            android:text="Amount"
+            android:drawableStart="@drawable/baseline_attach_money_24"
+            android:layout_below="@+id/downDownDateAndTime"
+            android:layout_marginTop="5dp">
         </TextView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/downLocation"
+            android:id="@+id/downAmount"
             android:textSize="25sp"
             android:textColor="@color/black"
-            android:text="Location"
-            android:layout_below="@+id/upLocation">
+            android:text="Amount"
+            android:gravity="center"
+            android:layout_below="@+id/upAmount">
         </TextView>
 
         <View
             android:layout_width="wrap_content"
+            android:id="@+id/downDownAmount"
             android:layout_height="2dp"
             android:background="@color/myGrayRV"
-            android:layout_below="@id/downLocation"/>
+            android:layout_below="@id/downAmount"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/upDescription"
+            android:id="@+id/upMoreInfo"
             android:textSize="25sp"
             android:textColor="@color/myGray"
-            android:text="Description"
-            android:drawableStart="@drawable/baseline_description_24"
-            android:layout_below="@+id/downLocation">
+            android:text="More Info"
+            android:drawableStart="@drawable/baseline_info_24"
+            android:layout_below="@+id/downDownAmount"
+            android:layout_marginTop="5dp">
         </TextView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/downDescription"
+            android:id="@+id/downMoreInfo"
             android:textSize="25sp"
             android:textColor="@color/black"
-            android:text="Description"
-            android:layout_below="@+id/upDescription">
+            android:text="MoreInfo"
+            android:gravity="center"
+            android:layout_below="@+id/upMoreInfo">
         </TextView>
 
         <View
             android:layout_width="wrap_content"
+            android:id="@+id/downDownMoreInfo"
             android:layout_height="2dp"
             android:background="@color/myGrayRV"
-            android:layout_below="@id/downDescription"/>
+            android:layout_below="@id/downMoreInfo"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -115,18 +128,20 @@
             android:textColor="@color/myGray"
             android:text="id"
             android:drawableStart="@drawable/baseline_numbers_24"
-            android:layout_below="@+id/downDescription">
+            android:layout_below="@+id/downDownMoreInfo"
+            android:layout_marginTop="5dp">
         </TextView>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
-            android:id="@+id/lastLine"
+            android:id="@+id/downPublicationIdRequests"
             android:background="@color/myGrayRV"
-            android:layout_below="@id/publicationIdRequests"/>
+            android:layout_below="@id/publicationIdRequests"
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
-            android:layout_below="@id/lastLine"
+            android:layout_below="@id/downPublicationIdRequests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -170,7 +185,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="Counteroffer"
-                android:background="@drawable/custom_button_for_publications_countoffers"
+                android:background="@drawable/custom_button_for_publications_counteroffers"
                 android:textAllCaps="false"/>
 
         </LinearLayout>

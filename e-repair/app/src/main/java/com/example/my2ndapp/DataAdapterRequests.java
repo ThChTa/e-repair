@@ -30,7 +30,7 @@ import java.util.Map;
 public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDataRequests,DataAdapterRequests.myViewHolder> {
 
 
-    private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
+    //private String sendToDataAdapter;  //data from MyPublications (full name of the publication creator)
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -38,19 +38,20 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
      *
      * @param options
      */
-    public DataAdapterRequests(@NonNull FirebaseRecyclerOptions<RecyclerViewDataRequests> options, String sendToDataAdapter) {
+    public DataAdapterRequests(@NonNull FirebaseRecyclerOptions<RecyclerViewDataRequests> options) {
         super(options);
-        this.sendToDataAdapter = sendToDataAdapter;}
+       // this.sendToDataAdapter = sendToDataAdapter;
+        }
 
 
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull RecyclerViewDataRequests model) {
-        holder.textlocation.setText(model.getLocation());
-        holder.textname.setText(sendToDataAdapter);
-        holder.texttype.setText(model.getType());
-        holder.textdescription.setText(model.getDescription());
-        holder.textid.setText(String.valueOf(model.getPublicationId()));
+        holder.textRequestName.setText("Requested by: \n" + model.getRfn() + " " + model.getRln());
+        holder.textDateAndTime.setText(model.getDate_and_time());
+        holder.textAmount.setText(model.getAmount());
+        holder.textMoreInfo.setText(model.getMore_info());
+        holder.textPId.setText(String.valueOf(model.getpId()));
 
     }
 
@@ -66,17 +67,17 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textlocation, textname, texttype, textdescription, textid;
+        TextView textRequestName, textDateAndTime, textAmount, textMoreInfo, textPId;
 
         Button buttonAccept, buttonDecline, buttonCounteroffer;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            textlocation = (TextView)itemView.findViewById(R.id.downLocation);
-            textname = (TextView)itemView.findViewById(R.id.requestName);
-            texttype = (TextView)itemView.findViewById(R.id.downType);
-            textdescription = (TextView)itemView.findViewById(R.id.downDescription);
-            textid = (TextView)itemView.findViewById(R.id.publicationIdRequests);
+            textRequestName = (TextView)itemView.findViewById(R.id.requestName);
+            textDateAndTime = (TextView)itemView.findViewById(R.id.downDateAndTime);
+            textAmount = (TextView)itemView.findViewById(R.id.downAmount);
+            textMoreInfo = (TextView)itemView.findViewById(R.id.downMoreInfo);
+            textPId = (TextView)itemView.findViewById(R.id.publicationIdRequests);
 
 
             buttonAccept = (Button)itemView.findViewById(R.id.buttonAccept);

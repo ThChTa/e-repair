@@ -85,11 +85,11 @@ public class Requests_Page extends AppCompatActivity {
 
                     //I have retrieved sendToDataAdapter, now set up FirebaseRecyclerOptions for publicationId = with the pId i click on
                     FirebaseRecyclerOptions<RecyclerViewDataRequests> options = new FirebaseRecyclerOptions.Builder<RecyclerViewDataRequests>()
-                            .setQuery(FirebaseDatabase.getInstance().getReference().child("jobs").orderByChild("publicationId").equalTo(pIdFromMyPublications), RecyclerViewDataRequests.class)
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("requests").orderByChild("pId").equalTo(pIdFromMyPublications), RecyclerViewDataRequests.class)
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapterRequests = new DataAdapterRequests(options, sendToDataAdapter1); //show to RV the full name,  Publications.this is to show Toast MESSAGE to AdminDataAdapter
+                    dataAdapterRequests = new DataAdapterRequests(options); //show to RV the full name,  Publications.this is to show Toast MESSAGE to AdminDataAdapter
                     recyclerView.setAdapter(dataAdapterRequests);
 
                     //start listening to the adapter here
