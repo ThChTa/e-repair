@@ -82,7 +82,11 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);    //is there any offer?
+                String[] parts = emailFromPublications.split("@");
+                    String username = parts[0];
+
+                String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
+
                     if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                         holder.btnRequest.setText("Offer Sent");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
@@ -139,17 +143,39 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                             query1.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
-                                        String editTextAmount = (String) jobSnapshot.child("amount").getValue();
-                                        String editTextDateAndTime = (String) jobSnapshot.child("date_and_time").getValue();
-                                        String editTextMoreInfo = (String) jobSnapshot.child("more_info").getValue();
-                                        txtAmount.setText(editTextAmount);
-                                        txtDateAndTime.setText(editTextDateAndTime);
-                                        txtMoreInfo.setText(editTextMoreInfo);
-                                    }
-                                }
 
-                                @Override
+                                    String[] parts = emailFromPublications.split("@");
+                                    String username = parts[0];
+
+                                    String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
+                                    Log.d("offerStatus", "offerStatus: " + offerStatus);
+                                    Log.d("itemKey + username", itemKey + username);
+
+                                    for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                                        String key = jobSnapshot.getKey();
+                                        if (key.equals(itemKey+username)) {
+                                            String editTextAmount = (String) jobSnapshot.child("amount").getValue();
+                                            String editTextDateAndTime = (String) jobSnapshot.child("date_and_time").getValue();
+                                            String editTextMoreInfo = (String) jobSnapshot.child("more_info").getValue();
+
+                                            if ((emailFromPublications + "_" + "offer_sent").equals(offerStatus)) {
+                                                Log.d("SWSTO", "SWSTO");
+                                                Log.d("emailFromNEW", emailFromPublications);
+
+                                                txtAmount.setText(editTextAmount);
+                                                txtDateAndTime.setText(editTextDateAndTime);
+                                                txtMoreInfo.setText(editTextMoreInfo);
+                                            } else {
+                                                txtAmount.setText("");
+                                                txtDateAndTime.setText("");
+                                                txtMoreInfo.setText("");
+                                                Log.d("LATHOS", "LATHOS");
+                                            }
+                                        }
+                                    }
+
+                                }
+                                    @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                     Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
                                 }
@@ -215,8 +241,10 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     map.put("rln", ln);
                                     map.put("rid", 9);
 
+                                    String[] parts = emailFromPublications.split("@");
+                                    String username = parts[0];
 
-                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).updateChildren(map)
+                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey+username).updateChildren(map)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
 
                                                 @Override
@@ -273,7 +301,10 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            String offerStatus = dataSnapshot.child(itemKey).child("offer_countoffer").getValue(String.class);
+                                                            String[] parts = emailFromPublications.split("@");
+                                                            String username = parts[0];
+
+                                                            String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
                                                             if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                                                                 holder.btnRequest.setText("Offer Sent");
                                                                 holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
