@@ -139,12 +139,12 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                         if (pId1 != null) {
                             Log.d("pId1", "pId1: " + pId1);
 
-                            Query query1 = database.getReference("requests").orderByChild("pId").equalTo(pId1);
+                            Query query1 = database.getReference("requests").orderByChild("pId").equalTo(pId1);   //extract all data with the same pId1
                             query1.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    String[] parts = emailFromPublications.split("@");
+                                    String[] parts = emailFromPublications.split("@");          //get "data" from data@mail.com
                                     String username = parts[0];
 
                                     String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
@@ -244,7 +244,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     String[] parts = emailFromPublications.split("@");
                                     String username = parts[0];
 
-                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey+username).updateChildren(map)
+                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey+username).updateChildren(map)   //set new key to requests : (the_previous_key + mail)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
 
                                                 @Override
