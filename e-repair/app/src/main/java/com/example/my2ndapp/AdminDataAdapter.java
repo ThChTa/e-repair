@@ -1,6 +1,7 @@
 package com.example.my2ndapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;  // Correct import for RecyclerView
+
+import com.example.AddActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -115,7 +118,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
             public void onClick(View v) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(holder.textname.getContext())        //show request_popup
                         .setContentHolder(new ViewHolder(R.layout.request_popup))
-                        .setExpanded(true,1100)
+                        .setExpanded(true,1200)
                         .create();
 
                 dialogPlus.show();
@@ -227,8 +230,6 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                 if (pId != null  && !TextUtils.isEmpty(txtAmount.getText().toString()) &&!TextUtils.isEmpty(txtDateAndTime.getText().toString())) {
                                   //  Log.d("pId", "pId: " + pId);   //pId visible here only
 
-
-
                                     Map<String, Object> map = new HashMap<>();    // open 'gate' to start inserting data to 'requests' table
                                     map.put("amount", txtAmount.getText().toString());
                                     map.put("date_and_time", txtDateAndTime.getText().toString());
@@ -239,91 +240,148 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                     map.put("pId", pId);
                                     map.put("rfn", fn);
                                     map.put("rln", ln);
-                                    map.put("rid", 9);
-
-                                    String[] parts = emailFromPublications.split("@");
-                                    String username = parts[0];
-
-                                    FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey+username).updateChildren(map)   //set new key to requests : (the_previous_key + mail)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d("neo", "neo: " + pId);   //pId visible here only
 
 
 
-                                                    DatabaseReference jobsRef = database.getReference("jobs"); // Reference to the "jobs" node
-                                                    Query query3 = jobsRef.orderByChild("publicationId").equalTo(pId); // Query for a specific "publicationId" value
+                                    // Set query DB
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference queryyy = database.getReference("requests");
 
-                                                    query3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    queryyy.addListenerForSingleValueEvent(new ValueEventListener() {         //search in requests Table
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            int maxRId = 0;
+
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {              //find max rId
+                                                Integer idValue = snapshot.child("rid").getValue(Integer.class);
+                                                if (idValue != null) {
+                                                    int id = idValue.intValue();
+                                                    if (id > maxRId) {
+                                                        maxRId = id;
+                                                    }
+                                                }
+                                            }
+
+                                            int temp;
+                                            temp = maxRId+1;
+
+
+                                            map.put("rid", temp);                    //insert (rId + 1) in my new publication
+                                            // maxRId will contain the maximum ID value
+
+
+                                            String[] parts = emailFromPublications.split("@");
+                                            String username = parts[0];
+
+                                            FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey+username).updateChildren(map)   //set new key to requests : (the_previous_key + mail)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+
                                                         @Override
-                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d("neo", "neo: " + pId);   //pId visible here only
 
 
-                                                            for (DataSnapshot snapshot1 : dataSnapshot1.getChildren()) {
-                                                                Long z = snapshot1.child("requests").getValue(Long.class);
+                                                            /* CODE FOR jobs TABLE, requests values!!!!!!!!!!!!!!!!!!!!!
 
-                                                                if (z != null) {
+                                                         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("requests");
+                                                            Query queryy = dbr.orderByChild("offer_countoffer");    //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT
 
-                                                                    snapshot1.getRef().child("requests").setValue(z+1);
-                                                                } else {
-                                                                    snapshot1.getRef().child("requests").setValue(1); // Set a default value if 'requests' is null
+                                                            queryy.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshott) {
+
+
+                                                                    DatabaseReference jobsRef = database.getReference("jobs"); // Reference to the "jobs" node
+                                                                    Query query3 = jobsRef.orderByChild("publicationId").equalTo(pId); // Query for a specific "publicationId" value
+
+                                                                    query3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+
+
+                                                                            String offerStatus = dataSnapshott.child(itemKey + username).child("offer_countoffer").getValue(String.class);
+
+                                                                            for (DataSnapshot snapshot1 : dataSnapshot1.getChildren()) {
+                                                                                Long z = snapshot1.child("requests").getValue(Long.class);
+
+                                                                                if (z != null) {
+                                                                                    if ((holder.btnRequest.getText().toString().equals("Request an Offer"))) {
+                                                                                        // Update process: Requests Value is the same
+                                                                                        snapshot1.getRef().child("requests").setValue(100);
+                                                                                    } else {
+                                                                                        // Add a new request: requests = requests + 1
+                                                                                        snapshot1.getRef().child("requests").setValue(200);
+                                                                                    }
+
+                                                                                } else {
+                                                                                    // Set a default value if 'requests' is null
+                                                                                    snapshot1.getRef().child("requests").setValue(300);
+                                                                                }
+                                                                                Log.d("usernm", "username: " + username);  // Access z here
+
+                                                                                Log.d("oeoe", "z: " + (z + 1));  // Access z here
+                                                                                Log.d("test_test", "os: " + offerStatus);  // Access offerStatus here
+                                                                                Log.d("test_test1", "emailFromPublications: " + emailFromPublications);  // Access emailFromPublications here
+                                                                            }
+
+
+                                                                        }
+
+
+                                                                        @Override
+                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                            Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                                                        }
+                                                                    });
+                                                                }
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+                                                                    // Handle errors
+                                                                }
+                                                            });*/
+
+                                                            dialogPlus.dismiss(); // Close the dialog upon successful update
+
+
+
+
+
+                                                            query.addListenerForSingleValueEvent(new ValueEventListener() {   //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT (AFTER SEND REQUEST)
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                    String[] parts = emailFromPublications.split("@");
+                                                                    String username = parts[0];
+
+                                                                    String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
+                                                                    if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
+                                                                        holder.btnRequest.setText("Offer Sent");
+                                                                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
+                                                                    } else if ("countoffer_sent".equals(offerStatus)) {
+                                                                        holder.btnRequest.setText("See the Countoffer");
+                                                                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
+                                                                    } else {
+                                                                        holder.btnRequest.setText("Request an offer");
+                                                                        holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
+                                                                    }
                                                                 }
 
-
-
-
-                                                                Log.d("oeoe", "z: " + (z + 1));   // Access z here
-
-
-                                                            }
-
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                            Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+                                                                    // Handle errors
+                                                                }
+                                                            });
                                                         }
                                                     });
 
-// You cannot access z here directly; it's only available within onDataChange
+                                        }
 
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            // Handle error
+                                        }
+                                    });
 
-
-                                                    dialogPlus.dismiss(); // Close the dialog upon successful update
-
-
-
-
-
-                                                    query.addListenerForSingleValueEvent(new ValueEventListener() {   //WE USE THIS QUERY TO SET/CHANGE THE COLOR AND THE TEXT OF THE REQUEST BUTTON IF THE HAVE REQUEST FROM ADMIN OR NOT (AFTER SEND REQUEST)
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                            String[] parts = emailFromPublications.split("@");
-                                                            String username = parts[0];
-
-                                                            String offerStatus = dataSnapshot.child(itemKey + username).child("offer_countoffer").getValue(String.class);
-                                                            if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
-                                                                holder.btnRequest.setText("Offer Sent");
-                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                                                            } else if ("countoffer_sent".equals(offerStatus)) {
-                                                                holder.btnRequest.setText("See the Countoffer");
-                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
-                                                            } else {
-                                                                holder.btnRequest.setText("Request an offer");
-                                                                holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_edit);
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-                                                            // Handle errors
-                                                        }
-                                                    });
-                                                }
-                                            });
 
 
 
