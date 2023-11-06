@@ -107,7 +107,7 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
                                         DatabaseReference destinationTableRef = FirebaseDatabase.getInstance().getReference("acceptTable");
 
 
-// Query the data from the source table using the specific key
+                                        // Query the data from the source table using the specific key
                                         sourceTableRef.child(itemKey).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -190,6 +190,46 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
 
             }
         });
+
+
+
+
+
+        holder.buttonDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.textPId.getContext());
+                builder.setTitle("Are you Sure?");
+                builder.setMessage("If you proceed you decline this request!");
+
+                String itemKey = getRef(holder.getBindingAdapterPosition()).getKey(); // Assuming you have the item key
+
+
+                builder.setPositiveButton("Decline request", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseDatabase.getInstance().getReference().child("requests").child(itemKey).removeValue();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+
+            }
+        });
+
+
+
+
+
+
+
+
 
     }
 
