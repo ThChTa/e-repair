@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/upDateAndTime"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textColor="@color/myGray"
             android:text="Date &amp; Time"
             android:drawableStart="@drawable/baseline_calendar_month_24"
@@ -45,6 +45,7 @@
             android:textSize="25sp"
             android:textColor="@color/black"
             android:text="Date &amp; Time"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_below="@+id/upDateAndTime">
         </TextView>
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/upAmount"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textColor="@color/myGray"
             android:text="Amount"
             android:drawableStart="@drawable/baseline_attach_money_24"
@@ -77,6 +78,8 @@
             android:textSize="25sp"
             android:textColor="@color/black"
             android:text="Amount"
+            android:textStyle="bold"
+
             android:gravity="center"
             android:layout_below="@+id/upAmount">
         </TextView>
@@ -93,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/upMoreInfo"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textColor="@color/myGray"
             android:text="More Info"
             android:drawableStart="@drawable/baseline_info_24"
@@ -108,6 +111,7 @@
             android:textSize="25sp"
             android:textColor="@color/black"
             android:text="MoreInfo"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_below="@+id/upMoreInfo">
         </TextView>
@@ -138,7 +142,7 @@
             android:id="@+id/downPublicationIdRequests"
             android:background="@color/myGrayRV"
             android:layout_below="@id/publicationIdRequests"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_below="@id/downPublicationIdRequests"

@@ -89,7 +89,7 @@ public class Requests_Page extends AppCompatActivity {
                             .build();
 
                     //Initialize the DataAdapter with the correct options and sendToDataAdapter
-                    dataAdapterRequests = new DataAdapterRequests(options); //show to RV the full name,  Publications.this is to show Toast MESSAGE to AdminDataAdapter
+                    dataAdapterRequests = new DataAdapterRequests(options,emailFromMyPublications); //show to RV the full name,  Publications.this is to show Toast MESSAGE to AdminDataAdapter
                     recyclerView.setAdapter(dataAdapterRequests);
 
                     //start listening to the adapter here
