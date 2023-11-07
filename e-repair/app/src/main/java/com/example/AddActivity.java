@@ -81,6 +81,7 @@ public class AddActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();      //create map to insert
         map.put("name", firstNameFromMyPublications);       //insert
         map.put("lastName", lastNameFromMyPublications);       //insert
+        map.put("pemail",emailFromMyPublicationsToAddActivity);
         map.put("type", type.getText().toString());             //insert
         map.put("location", location.getText().toString());         //insert
         map.put("description", description.getText().toString());       //insert
