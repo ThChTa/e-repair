@@ -93,7 +93,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                     if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                         holder.btnRequest.setText("Offer Sent");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                    } else if("countoffer_sent".equals(offerStatus)) {
+                    } else if("counteroffer_sent".equals(offerStatus)) {
                         holder.btnRequest.setText("See the Countoffer");
                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
                     }else{
@@ -161,10 +161,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                             String editTextDateAndTime = (String) jobSnapshot.child("date_and_time").getValue();
                                             String editTextMoreInfo = (String) jobSnapshot.child("more_info").getValue();
 
-                                            if ((emailFromPublications + "_" + "offer_sent").equals(offerStatus)) {
-                                                Log.d("SWSTO", "SWSTO");
-                                                Log.d("emailFromNEW", emailFromPublications);
-
+                                            if (((emailFromPublications + "_" + "offer_sent").equals(offerStatus)) || ("counteroffer_sent").equals(offerStatus)) {
                                                 txtAmount.setText(editTextAmount);
                                                 txtDateAndTime.setText(editTextDateAndTime);
                                                 txtMoreInfo.setText(editTextMoreInfo);
@@ -357,7 +354,7 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                                     if ((emailFromPublications+"_"+"offer_sent").equals(offerStatus)) {                                                                    //if YES
                                                                         holder.btnRequest.setText("Offer Sent");
                                                                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_my_publications_requests);
-                                                                    } else if ("countoffer_sent".equals(offerStatus)) {
+                                                                    } else if ("counteroffer_sent".equals(offerStatus)) {
                                                                         holder.btnRequest.setText("See the Countoffer");
                                                                         holder.btnRequest.setBackgroundResource(R.drawable.custom_button_for_publications_counteroffers);
                                                                     } else {

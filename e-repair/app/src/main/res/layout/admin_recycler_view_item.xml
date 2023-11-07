@@ -85,7 +85,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button_for_publications_request"
                 android:textAllCaps="false"
-                android:textColor="@color/myBlue"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 tools:ignore="SpeakableTextPresentCheck" />
 
