@@ -278,6 +278,43 @@ public class AdminDataAdapter extends FirebaseRecyclerAdapter <RecyclerViewData,
                                                             Log.d("neo", "neo: " + pId);   //pId visible here only
 
 
+                                                            // Get a reference to Firebase database
+                                                            DatabaseReference databaseReferenceCountData = database.getReference("requests");    //CODE FOR NUMBER OF REQUESTS IN JOBS TABLE THANKS TO pId in requests table. The message and the button color in admins depends on num of requests
+
+                                                            // Query and count data with pId equal to pId
+                                                            databaseReferenceCountData.orderByChild("pId").equalTo(pId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                    long count = dataSnapshot.getChildrenCount();
+
+                                                                        DatabaseReference jobsRef = database.getReference("jobs"); // Reference to the "jobs" node
+                                                                        Query query3 = jobsRef.orderByChild("publicationId").equalTo(pId); // Query for a specific "publicationId" value
+
+                                                                        query3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+
+                                                                                for (DataSnapshot snapshot1 : dataSnapshot1.getChildren()) {
+
+                                                                                    snapshot1.getRef().child("requests").setValue(count);
+                                                                                }
+                                                                            }
+                                                                            @Override
+                                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                                Log.e("FirebaseError", "Error retrieving data: " + databaseError.getMessage());
+                                                                            }
+                                                                        });
+
+
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+                                                                    Log.e("Data Count", "Error counting data: " + databaseError.getMessage());
+                                                                }
+                                                            });
+
+
                                                             /* CODE FOR jobs TABLE, requests values!!!!!!!!!!!!!!!!!!!!!
 
                                                          DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("requests");
