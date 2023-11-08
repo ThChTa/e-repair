@@ -32,8 +32,12 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:text="-"
-        android:textColor="@color/black"
-        android:background="@drawable/round_edit"/>
+        android:textColor="@color/myGray"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:background="@drawable/round_edit_type"/>
 
     <TextView
         android:layout_width="match_parent"
