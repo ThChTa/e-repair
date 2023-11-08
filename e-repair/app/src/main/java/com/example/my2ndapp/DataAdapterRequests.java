@@ -450,12 +450,6 @@ public class DataAdapterRequests extends FirebaseRecyclerAdapter <RecyclerViewDa
 
 
 
-
-
-
-
-
-
     }
 
 

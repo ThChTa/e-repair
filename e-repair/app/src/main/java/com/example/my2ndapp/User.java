@@ -23,16 +23,18 @@ import org.checkerframework.common.reflection.qual.NewInstance;
 public class User extends AppCompatActivity {
 
      private Button logoutU;
-     Button rv;
+     Button rv, myProfileUser;
      TextView tv;
 
-     private String emailFromSignIn,emailFromMyPublications, name;
+     private String emailFromSignIn,emailFromMyPublications, emailFromMyProfileUser, name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
         rv = findViewById(R.id.recView);
+        myProfileUser = findViewById(R.id.MyProfileUser);
         logoutU = findViewById(R.id.logoutUser);
         tv = findViewById(R.id.aa);
 
@@ -44,7 +46,7 @@ public class User extends AppCompatActivity {
             } else {
                 // Handle the case where emailFromSignIn is null
             }
-        } else {
+        } else if (intent != null && intent.hasExtra("emailFromMyPublications"))  {
             emailFromMyPublications = intent.getStringExtra("emailFromMyPublications");
             if (emailFromMyPublications != null) {
                 //tv.setText(emailFromMyPublications);
@@ -52,6 +54,12 @@ public class User extends AppCompatActivity {
             }
 
             // Handle the case where the intent or the extra doesn't exist
+        }else{
+            emailFromMyProfileUser = intent.getStringExtra("emailFromMyProfileUser");
+            if (emailFromMyProfileUser != null) {
+                //tv.setText(emailFromMyPublications);
+                emailFromSignIn = emailFromMyProfileUser;
+            }
         }
 
 
@@ -86,6 +94,18 @@ public class User extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 //startActivity(new Intent(getApplicationContext(), MyPublications.class));
                 Intent i = new Intent(User.this, MyPublications.class);
+                i.putExtra("emailFromUser", emailFromSignIn);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        myProfileUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                //startActivity(new Intent(getApplicationContext(), MyPublications.class));
+                Intent i = new Intent(User.this, MyProfileUser.class);
                 i.putExtra("emailFromUser", emailFromSignIn);
                 startActivity(i);
                 finish();
