@@ -42,7 +42,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //back button
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);  //back button
 
         firebaseAuthSignIn = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
