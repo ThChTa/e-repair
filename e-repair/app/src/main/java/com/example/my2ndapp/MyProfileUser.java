@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +29,9 @@ import java.util.Map;
 
 public class MyProfileUser extends AppCompatActivity {
 
+    FirebaseAuth authProfile;
     ImageButton backButton;
-    EditText firstNameGap, lastNameGap, typeGap, emailGap;
+    EditText firstNameGap, lastNameGap, typeGap, emailGap, currentPasswordGap, newPasswordGap1, newPasswordGap2;
     Button buttonUpdateProfile;
     String userKey;
 
@@ -36,15 +41,28 @@ public class MyProfileUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile_user);
 
+        getSupportActionBar().setTitle("My Profile");
+
+        Intent intent = getIntent();
+        String emailFromUser = intent.getExtras().getString("emailFromUser");  //email when navigate from User
+
         backButton = (ImageButton) findViewById(R.id.backButtonMyProfileUser);
+
         firstNameGap = findViewById(R.id.FirstNameGap);
         lastNameGap = findViewById(R.id.LastNameGap);
         typeGap = findViewById(R.id.typeGap);
         emailGap = findViewById(R.id.emailGap);
+
+        currentPasswordGap = findViewById(R.id.currentPasswordGap);
+        newPasswordGap1 = findViewById(R.id.newPasswordGap1);
+        newPasswordGap2 = findViewById(R.id.newPasswordGap2);
+
         buttonUpdateProfile = (Button)findViewById(R.id.buttonUpdateProfile);
 
-        Intent intent = getIntent();
-        String emailFromUser = intent.getExtras().getString("emailFromUser");  //email when navigate from User
+        authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+
+
 
 
 
