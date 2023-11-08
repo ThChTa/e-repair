@@ -47,7 +47,7 @@ public class User extends AppCompatActivity {
         } else {
             emailFromMyPublications = intent.getStringExtra("emailFromMyPublications");
             if (emailFromMyPublications != null) {
-                tv.setText(emailFromMyPublications);
+                //tv.setText(emailFromMyPublications);
                 emailFromSignIn = emailFromMyPublications;
             }
 

@@ -72,8 +72,18 @@ public class SignUp extends AppCompatActivity {
 
         List<String> Categories = new ArrayList<>();
         Categories.add(0,"user");
-        Categories.add("aaa");
-        Categories.add("bbb");
+        Categories.add("Mechanical Engineer");
+        Categories.add("Computer Programmer");
+        Categories.add("HVAC Technician: HVAC (Heating, Ventilation, and Air Conditioning)");
+        Categories.add("Welder");
+        Categories.add("Plasterer");
+        Categories.add("Automotive Mechanic");
+        Categories.add("Carpenter");
+        Categories.add("Mason");
+        Categories.add("Landscape Designer");
+        Categories.add("Architect");
+        Categories.add("Plumber");
+        Categories.add("Solar Panel Installer");
 
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,Categories);

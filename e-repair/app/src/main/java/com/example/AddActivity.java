@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.my2ndapp.DataAdapter;
@@ -26,12 +29,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddActivity extends AppCompatActivity {
 
-    EditText type,location,description;
+    private Spinner spinner;
+    EditText location,description;
     Button btnAdd;
     ImageButton imageButton;
     String firstNameFromMyPublications,lastNameFromMyPublications, emailFromMyPublicationsToAddActivity;
@@ -48,16 +54,49 @@ public class AddActivity extends AppCompatActivity {
         lastNameFromMyPublications = intent.getExtras().getString("lastNameFromMyPublications");  //get first name and last name from MyPublications
         emailFromMyPublicationsToAddActivity = intent.getExtras().getString("emailFromMyPublications"); //get email from MyPublications to send it back when back btn is clicked
 
-        //Log.d("sos2","firstNameFromMyPublications = " + firstNameFromMyPublications + ", emailFromMyPublicationsToAddActivity = " + emailFromMyPublicationsToAddActivity);
-
         imageButton = (ImageButton) findViewById(R.id.imageButtonAddActivity);
 
-        type = (EditText)findViewById(R.id.addType);
+        spinner= (Spinner)findViewById(R.id.addActivitySpinner);
         location = (EditText)findViewById(R.id.addLocation);
         description = (EditText)findViewById(R.id.addDescription);
 
-
         btnAdd = (Button)findViewById(R.id.btnSave);
+
+
+
+
+        List<String> Categories = new ArrayList<>();
+        Categories.add(0,"Choose type");
+        Categories.add("Mechanical Engineer");
+        Categories.add("Computer Programmer");
+        Categories.add("HVAC Technician: HVAC (Heating, Ventilation, and Air Conditioning)");
+        Categories.add("Welder");
+        Categories.add("Plasterer");
+        Categories.add("Automotive Mechanic");
+        Categories.add("Carpenter");
+        Categories.add("Mason");
+        Categories.add("Landscape Designer");
+        Categories.add("Architect");
+        Categories.add("Plumber");
+        Categories.add("Solar Panel Installer");
+
+        ArrayAdapter<String> dataAdapter;
+        dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,Categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {   //when back btn is clicked
@@ -78,11 +117,15 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void insertData() {
+
+        String category = spinner.getSelectedItem().toString();
+
+
         Map<String, Object> map = new HashMap<>();      //create map to insert
         map.put("name", firstNameFromMyPublications);       //insert
         map.put("lastName", lastNameFromMyPublications);       //insert
         map.put("pemail",emailFromMyPublicationsToAddActivity);
-        map.put("type", type.getText().toString());             //insert
+        map.put("type", category);             //insert
         map.put("location", location.getText().toString());         //insert
         map.put("description", description.getText().toString());       //insert
 
@@ -126,7 +169,6 @@ public class AddActivity extends AppCompatActivity {
                     public void run() {
                         location.getText().clear();     //clear edittext for next insert
                         description.getText().clear();  //clear edittext for next insert
-                        type.getText().clear();         //clear edittext for next insert
 
                         Toast.makeText(AddActivity.this, "Congratulations! You have Just Added a New Publication!", Toast.LENGTH_SHORT).show();
 

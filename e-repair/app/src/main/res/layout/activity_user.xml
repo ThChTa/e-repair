@@ -7,66 +7,6 @@
     android:background="@color/white"
     tools:context=".User">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="USER"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.188" />
-
-    <Button
-        android:id="@+id/logoutUser"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/custom_button_for_my_publications_delete"
-        android:text="Logout"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/recView"
-        android:layout_width="250dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="76dp"
-        android:background="@drawable/custom_button_for_start_screen"
-        android:textColor="@color/white"
-        android:text="Show My Publications"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/changeProfile"
-        android:layout_width="250dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="268dp"
-        android:background="@drawable/custom_button_for_start_screen"
-        android:textColor="@color/white"
-        android:text="My Profile"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/aa"
@@ -75,10 +15,61 @@
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/recView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.346" />
+
+    <Button
+        android:id="@+id/recView"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="260dp"
+        android:background="@drawable/custom_button_for_start_screen"
+        android:text="Show My Publications"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/changeProfile"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:background="@drawable/custom_button_for_start_screen"
+        android:text="My Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/logoutUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recView"
+        app:layout_constraintVertical_bias="0.242"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/logoutUser"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/custom_button_for_my_publications_delete"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
