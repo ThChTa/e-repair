@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.My2ndApp" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your dark theme here. -->
-       <item name="colorPrimary">@color/myBlue</item>
+    <style name="Base.Theme.My2ndApp" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your NIGHT theme here. -->
+        <item name="colorPrimary">@color/myBlue</item>
     </style>
+
+    <style name="Theme.My2ndApp" parent="Base.Theme.My2ndApp" />
 </resources>
